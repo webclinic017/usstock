@@ -1,0 +1,13 @@
+{% extends "layout.xhtm" %}
+{% block row_1 %}
+  {% include "ticker_finder.j2" %}
+{% endblock %}
+{% block content %}
+  {% if stock_performance %}
+    {% include "report.j2" %}
+  {% elif mtx %}
+    {% include "report_news.j2" %}
+  {% else %}
+    <h3> Analysis Coming Soon! </h3>
+  {% endif %}
+{% endblock %}

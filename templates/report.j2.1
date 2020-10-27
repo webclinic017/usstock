@@ -1,0 +1,32 @@
+<div class="sub_page" >
+<div id=summary >
+  <img id=summaryChart src="{{stock_performance.chartpath|safe}}" >
+  {{comment|safe}}
+  </div> <div id=stockPerf >
+  {% set kyLst=['fiftyTwoWeekRange','marketCap','epsTrailingTwelveMonths','company','company_cn','close','peersList','volume','high','low','sector','sector_cn','change','sharesOutstanding']
+  <table> <tr>
+  {% set j=0 %}
+  {% for ky,val in stock_performance.items() %}
+     {% if ky in kyLst %}
+      <td>{{ky}}</td> <td>{{val}}</td>
+      {% set j=j+1 %}
+     {% endif %}
+       </tr> <tr>
+  {% endfor %}
+  </tr> </table>
+
+  {{stock_performance.comment|safe}}
+  </div> <div id=etfPerf >
+  <img id=etfChart src="{{etf_performance.chartpath|safe}}" >
+  {{etf_performance.comment|safe}}
+  </div> <div id=peersPerf >
+  <img id=dailyPeerChart src="{{daily_peers.chartpath|safe}}" >
+  {{daily_peers.comment|safe}}
+  </div> <div id=dailyPerf >
+  <img id=peersChart src="{{peers_performance.chartpath|safe}}" >
+  {{peers_performance.comment|safe}}
+  </div> <div id=earningsPerf >
+  <img id=earningsChart src="{{earnings_performance.chartpath|safe}}" >
+  {{earnings_performance.comment|safe}}
+  </div>
+</div>

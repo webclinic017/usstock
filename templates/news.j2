@@ -1,0 +1,40 @@
+{%- if mtx -%}
+<ul class="newsClass" >
+{% for itemX in mtx %}
+  <li>
+  <a href={{itemX.link|safe}} target='StockNews' >
+  <div class=enNews >
+    {{itemX.source.title or 'reddit' |safe}}
+    ({{ pd.Timestamp(itemX.pubDate).tz_localize('utc').tz_convert('America/New_York').strftime("%b-%d %I:%M%p %Z" )|safe }})
+    {{itemX.title|safe}}
+  </div>
+  {%- if itemX.title_cn -%}
+    <div class=cnNews style="clear:both" >
+      {{itemX.title_cn|safe}} 
+    </div>
+  {% endif %}
+  </a>
+  {%- if itemX.summary -%}
+  <div style="width: 100%; display: table;">
+  <div class=newsItem >
+  <div class=enNews style="display: table-cell;">
+    {{itemX.summary|safe}}
+  </div>
+  <div class=cnNews style="display: table-cell;">
+    {%- if itemX.summary_cn -%}
+      {{itemX.summary_cn|safe}}
+    {%- else -%}
+      {%- if itemX._id and itemX.summary -%}
+        <input id=e2cNBtn type=button value="en->中" name="{{itemX._id}}" >
+      {% endif %}
+    {%- endif -%}
+  </div>
+  </div>
+  </div>
+  {% endif %}
+  </li>
+  <BR>
+{% endfor %}
+</ul>
+{% endif %}
+

@@ -1,0 +1,25 @@
+<style>
+input[type=button] {
+	background:#EAF5E1;
+	border:1px solid #3B851A;
+	border-radius: 5px; 
+	-moz-border-radius: 5px; 
+	-webkit-border-radius: 5px;
+	margin:3px;
+	padding:3px;
+}
+</style>
+<div style="margin-bottom:10px" >
+<FORM action='/report' method='post' onsumbit="return function(data){}" >
+<!-- input id=tickerList name=ticker value='{{ticker or "AAPL" | safe}}'>
+<input type="submit" name="submit" value="Search">
+<a style="margin-left:30px" href='/report?topic=news&subtopic=company&ticker={{ticker or "AAPL" | safe}}'>
+<input type=button Value="Related News" >
+</a -->
+<span style="float:right;background:#3B851A" >
+<input id=enBtn type=button Value="en" >
+<input id=bothBtn type=button Value="en/中" >
+<input id=cnBtn type=button Value="中" >
+</span>
+</FORM>
+</div>

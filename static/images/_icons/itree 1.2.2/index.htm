@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>iTree</title>
+	<link rel="stylesheet" type="text/css" href="itree.css" />
+    <script src="scripts/jquery-1.8.2.min.js" type="text/javascript"></script>
+	<script src="scripts/jquery.itree.js" type="text/javascript"></script>
+    <script language="javascript" type="text/javascript" >
+	
+			
+			$(document).ready(function(){
+				var nodes=[{"id":"1","title":"Node 1","type":"0","childs":[
+				{"id":"3","title":"SubNode 1","type":"0","childs":[{"id":"5","title":"Leaf","type":"1"}]}
+
+				]},
+				{"id":"4","title":"Node 2","type":"0"}				
+				];
+				
+				var option={
+					icons:["images/folder.gif","images/document.png"],
+					ltotal:1,
+					isrtl:false,
+					leafnodetype:1,
+					open:function(){
+						//alert("its opened 1");
+					},
+					select:function(o){
+						console.log("selected id=" + o.id + " title=" + o.title );
+					}
+				}
+				
+				var option2={
+					isrtl:true,
+					loadondemand:true,
+					ltotal:7,
+					lod:function(parentid,con){
+						var n=[{"id":"34","title":"Loaded Node1","type":"0","childs":[]},
+							{"id":"35","title":"Loaded Node2","type":"1","childs":[]}				
+							];
+							itree.afterlod(con,n);
+					}
+				}
+				
+				itree.fill($("#div2"),nodes,option);
+				itree.fill($("#div3"),nodes,option2);
+			});
+    </script>
+</head>
+<body dir="ltr">
+<input type="button" value="get Selected Node" onclick="itree.selectedNode($('#div2'));" />
+<hr />
+<div class="itree" id="div2" ></div>
+<hr />
+<div class="itree" id="div3" dir="rtl" ></div>
+</body>
+</html>

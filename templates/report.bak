@@ -1,0 +1,290 @@
+<div class="sub_page">
+<div class="row gs-header gs-text-header">
+<div class="nine columns padded">
+<h5>Goldman Sachs Strategic Absolute Return Bond II Portfolio</h5>
+<h6 style="color: rgb(127, 144, 172);">A sub-fund of Goldman Sachs Funds, SICAV</h6>
+</div>
+<div class="three columns gs-header gs-accent-header padded" style="float: right;">
+<h1>
+<span style="opacity: 0.5;">03</span>
+<span>17</span>
+</h1>
+<h6>Monthly Fund Update</h6>
+</div>
+</div>
+<br>
+<div class="row ">
+<div class="four columns">
+<h6 class="gs-header gs-text-header padded">Investor Profile</h6>
+<strong>Investor objective</strong>
+<p class="blue-text">Capital appreciation and income.</p>
+<strong>Position in your overall investment portfolio*</strong>
+<p class="blue-text">The fund can complement your portfolio.</p>
+<strong>The fund is designed for:</strong>
+<p class="blue-text">The fund is designed for investors who are looking for a flexible                             global investment and sub-investment grade fixed income portfolio                             that has the ability to alter its exposure with an emphasis on interest                             rates, currencies and credit markets and that seeks to generate returns                             through different market conditions with a riskier investment strategy                             than GS Strategic Absolute Return Bond I Portfolio.</p>
+</div>
+<div class="six columns">
+<h6 class="subtitle padded">SP500</h6>
+<div id="graph-2" class="dash-graph">
+<div>
+</div>
+<div class="js-plotly-plot" style="height: 100%; width: 100%;">
+<div class="plot-container plotly">
+<div class="svg-container" style="position: relative; width: 340px; height: 200px;">
+<svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="340" height="200" style="background: rgb(255, 255, 255);">
+<defs id="defs-1153ed">
+<g class="clips">
+<clipPath id="clip1153edxyplot" class="plotclip">
+<rect width="270" height="122">
+</rect>
+</clipPath>
+<clipPath class="axesclip" id="clip1153edx">
+<rect x="50" y="0" width="270" height="200">
+</rect>
+</clipPath>
+<clipPath class="axesclip" id="clip1153edy">
+<rect x="0" y="20" width="340" height="122">
+</rect>
+</clipPath>
+<clipPath class="axesclip" id="clip1153edxy">
+<rect x="50" y="20" width="270" height="122">
+</rect>
+</clipPath>
+</g>
+<g class="gradients">
+</g>
+</defs>
+<g class="bglayer">
+</g>
+<g class="draglayer cursor-crosshair">
+<g class="xy">
+<rect class="nsewdrag drag" data-subplot="xy" x="50" y="20" width="270" height="122" style="fill: transparent; stroke-width: 0; pointer-events: all;">
+</rect>
+<rect class="nwdrag drag cursor-nw-resize" data-subplot="xy" x="30" y="0" width="20" height="20" style="fill: transparent; stroke-width: 0; pointer-events: all;">
+</rect>
+<rect class="nedrag drag cursor-ne-resize" data-subplot="xy" x="320" y="0" width="20" height="20" style="fill: transparent; stroke-width: 0; pointer-events: all;">
+</rect>
+<rect class="swdrag drag cursor-sw-resize" data-subplot="xy" x="30" y="142" width="20" height="20" style="fill: transparent; stroke-width: 0; pointer-events: all;">
+</rect>
+<rect class="sedrag drag cursor-se-resize" data-subplot="xy" x="320" y="142" width="20" height="20" style="fill: transparent; stroke-width: 0; pointer-events: all;">
+</rect>
+<rect class="ewdrag drag cursor-ew-resize" data-subplot="xy" x="77" y="142.5" width="216" height="20" style="fill: transparent; stroke-width: 0; pointer-events: all;">
+</rect>
+<rect class="wdrag drag cursor-w-resize" data-subplot="xy" x="50" y="142.5" width="27" height="20" style="fill: transparent; stroke-width: 0; pointer-events: all;">
+</rect>
+<rect class="edrag drag cursor-e-resize" data-subplot="xy" x="293" y="142.5" width="27" height="20" style="fill: transparent; stroke-width: 0; pointer-events: all;">
+</rect>
+<rect class="nsdrag drag cursor-ns-resize" data-subplot="xy" x="29.5" y="32.2" width="20" height="97.60000000000001" style="fill: transparent; stroke-width: 0; pointer-events: all;">
+</rect>
+<rect class="sdrag drag cursor-s-resize" data-subplot="xy" x="29.5" y="129.8" width="20" height="12.200000000000001" style="fill: transparent; stroke-width: 0; pointer-events: all;">
+</rect>
+<rect class="ndrag drag cursor-n-resize" data-subplot="xy" x="29.5" y="20" width="20" height="12.200000000000001" style="fill: transparent; stroke-width: 0; pointer-events: all;">
+</rect>
+</g>
+</g>
+<g class="layer-below">
+<g class="imagelayer">
+</g>
+<g class="shapelayer">
+</g>
+</g>
+<g class="cartesianlayer">
+<g class="subplot xy">
+<g class="layer-subplot">
+<g class="shapelayer">
+</g>
+<g class="imagelayer">
+</g>
+</g>
+<g class="gridlayer">
+<g class="x">
+</g>
+<g class="y">
+<path class="ygrid crisp" transform="translate(0,101.33)" d="M50,0h270" style="stroke: rgb(127, 127, 127); stroke-opacity: 0.2; stroke-width: 1px;">
+</path>
+<path class="ygrid crisp" transform="translate(0,60.67)" d="M50,0h270" style="stroke: rgb(127, 127, 127); stroke-opacity: 0.2; stroke-width: 1px;">
+</path>
+</g>
+</g>
+<g class="zerolinelayer">
+</g>
+<path class="xlines-below">
+</path>
+<path class="ylines-below">
+</path>
+<g class="overlines-below">
+</g>
+<g class="xaxislayer-below">
+</g>
+<g class="yaxislayer-below">
+</g>
+<g class="overaxes-below">
+</g>
+<g class="plot" transform="translate(50, 20)" clip-path="url('#clip1153edxyplot')">
+<g class="scatterlayer mlayer">
+<g class="trace scatter trace02c47a" style="stroke-miterlimit: 2; opacity: 1;">
+<g class="fills">
+</g>
+<g class="errorbars">
+</g>
+<g class="lines">
+<path class="js-line" d="M0,116.59L1.07,115.89L1.14,116.39L1.79,119L2,118.37L2.07,117.8L2.5,119.69L2.79,118.93L3.08,118.14L4.29,116.36L4.51,116.37L5.58,114.92L5.79,115.23L6.01,114.96L6.15,115.11L6.22,114.76L6.51,114.38L6.65,114.58L6.8,114.1L7.08,113.98L7.15,113.43L7.3,114.19L7.8,113.16L8.01,113.38L8.8,117.49L9.01,115.5L9.16,115.02L9.66,117.32L9.73,119.09L10.16,119.24L10.23,117.81L10.3,118.36L10.59,119.12L10.73,117.82L11.02,119.95L11.3,118.27L11.52,118.36L11.8,117.22L12.16,118.26L12.23,119L12.52,118.97L12.59,120.32L12.81,121.08L13.16,119.55L13.24,119.14L13.74,118.08L13.81,119.36L14.02,119.1L14.17,119.17L15.02,116.88L15.1,117.1L15.52,116.8L15.6,117.08L15.67,118.36L16.17,118.17L16.74,120.08L16.81,119.37L17.1,119.99L17.24,118.34L17.31,117.75L17.6,118.27L17.81,117.54L18.03,117.04L19.32,116.05L19.53,116.43L20.17,114.76L20.32,114.83L20.53,114.49L20.6,115.25L21.25,114.53L21.32,114.55L21.68,113.95L21.75,113.01L21.82,112.82L22.11,113.32L22.25,113.32L22.32,113.9L22.68,114.74L22.75,114L23.54,114.36L23.61,114.66L24.32,112.22L24.54,112.22L24.68,112.43L25.04,111.95L25.11,111.65L26.18,110.75L26.26,110.86L26.54,111.03L26.76,110.46L26.83,110.07L27.76,109.82L27.83,110.76L29.33,108.05L29.62,109.17L30.05,108.69L30.12,109.54L30.19,109.46L30.26,108.54L31.19,111.55L31.34,110.65L31.55,109.87L31.62,110.05L31.84,109.24L32.05,109.39L32.12,109.01L32.69,108.35L32.84,108.65L33.05,108.81L33.55,109.59L33.7,108.57L33.77,108.28L34.05,108.37L34.13,107.88L34.2,107.54L34.34,107.21L34.7,107.88L34.77,108.37L35.13,107.48L35.34,108.26L35.56,108.6L35.77,108.03L36.13,109.14L36.34,108.54L36.63,107.96L37.34,110.98L37.56,110.95L37.7,111.21L38.13,109.98L38.28,110.47L38.35,111.08L39.28,107.64L39.35,108.02L39.56,109.01L40.06,109.58L40.14,108.71L40.21,108.75L40.28,108.02L40.64,108.5L40.71,109.6L41.14,111.67L41.21,111.41L41.28,113.86L41.57,117.14L41.85,114.73L42.07,113.68L42.57,116.96L42.78,115.52L42.85,114.81L43.21,113.1L43.35,114.93L43.64,115.28L43.86,115.73L44.36,113.22L44.57,113.7L45.57,117.96L45.64,116.96L46.65,112.83L46.72,113.46L46.79,113.24L47.36,110.41L47.58,111.7L47.65,113.12L48.15,110.78L48.36,111.27L48.58,111.76L48.65,111.52L48.79,113.21L48.86,113.23L49.08,114.15L49.36,115.55L49.58,114.17L50.22,111.39L50.37,111.62L50.58,112.38L51.08,113.65L51.22,112.09L51.3,111.67L51.72,111.85L52.15,110.73L52.23,110.72L53.73,108.74L53.8,109.05L53.87,109.14L54.16,109.3L54.3,108.76L54.37,107.97L55.23,108.04L55.3,107.44L55.37,107.31L56.59,107.18L56.66,108.04L57.59,105.34L57.73,105.62L57.81,106.03L58.59,104.96L58.66,105.19L58.74,105.78L59.17,107.42L59.59,106.97L59.67,106.11L60.1,107.08L60.24,106.11L60.31,105.73L60.81,106.08L60.88,106.99L61.38,107.63L61.6,108.24L61.88,109.99L62.38,109.08L62.67,108.48L63.1,110.69L63.39,108.76L63.6,109.44L64.17,107.44L64.39,108.38L64.6,109.24L65.17,106.79L65.39,107.58L65.6,107.67L65.82,108.39L66.18,107.21L66.25,106.84L66.32,106.69L66.61,107.75L66.68,108.24L67.75,105.64L67.82,105.62L69.25,105.31L69.32,105.75L70.4,103.06L70.76,103.25L70.83,103.28L71.18,104.04L71.26,104.38L71.83,103.24L72.11,103.46L72.19,104.05L72.4,104.57L72.76,103.26L72.83,103.4L73.26,105.38L73.4,105.25L73.76,105.24L74.19,104.58L74.33,106.65L74.4,106.55L74.69,106.77L74.76,107.54L75.26,106.1L75.41,105.36L76.26,105.36L76.34,105.17L77.19,103.83L77.41,104.51L77.62,104.65L77.91,105.63L78.12,104.67L78.27,103.19L80.41,101.13L80.63,101.84L81.34,100.8L81.41,100.86L81.7,100.41L82.13,102.16L82.42,100.93L82.63,100.64L83.35,99.1L83.42,99.2L83.63,99.55L83.85,99.8L84.21,99.07L84.28,99.11L84.71,98.81L84.78,99.48L84.92,99.5L85.14,99.1L85.35,97.87L85.42,98.05L85.64,99.54L85.85,99.97L86.35,98.2L86.42,98.32L86.64,97.86L86.78,98.3L88.21,94.79L88.35,95.55L88.43,95.58L88.71,95.16L88.86,95.39L88.93,96.35L89.28,97.24L89.64,95.86L89.71,96.54L90.21,95.49L90.64,98.69L90.72,98.09L91.72,95.47L91.79,95.46L92.65,93.72L92.72,93.84L93.29,94.11L93.36,93.25L94.22,93.77L94.29,94.13L94.79,95.86L94.94,95.02L95.15,95.29L95.22,96.36L95.87,95.36L95.94,95.36L96.8,92.5L97.15,93.46L97.23,93.64L98.23,95.35L98.3,95.31L98.37,93.84L99.44,91.1L99.66,91.01L99.87,91.23L100.3,90.67L100.37,91.62L100.95,89.54L101.23,89.96L101.3,90.22L101.8,89.17L102.16,89.43L102.23,89.66L102.66,89.13L102.95,90.47L103.16,90.01L103.24,90.24L103.45,88.72L103.66,88.33L104.24,87.5L104.45,88.19L104.67,88.38L105.17,88.69L105.31,87.5L105.45,87.89L105.74,87.69L106.67,91.83L106.81,91.43L106.88,90.55L107.74,87.81L107.81,88.3L107.89,87.85L107.96,87.99L108.39,87.26L108.46,87.05L108.67,87.61L108.96,86.29L109.17,86.33L109.46,87.79L109.96,86.76L110.17,87.13L110.39,87.47L110.82,85.77L110.96,86.82L111.18,87.64L111.32,86.53L111.46,88.83L111.89,86.83L112.18,86.54L112.46,86.89L112.89,86.06L112.97,86.17L113.18,86.02L113.25,86.71L113.75,85.5L113.9,86.59L113.97,86.3L115.4,83.75L115.47,83.39L115.76,83.33L115.83,83.62L115.9,84.18L116.97,82.92L117.19,82.95L117.4,81.93L117.97,82.65L118.19,82.26L118.33,82.08L118.4,83.04L118.76,82L118.83,81.86L119.9,85.01L119.98,84.12L120.19,83.9L121.76,81.24L121.84,81.3L121.98,81.02L122.27,81.8L122.41,81.44L122.48,81.92L122.69,81.98L122.84,81.27L122.91,80.87L124.27,83.97L124.34,82.6L124.84,86.93L125.2,85.24L125.27,83.72L125.34,84.3L125.77,81.94L125.84,82.05L126.77,79.72L126.84,79.78L126.92,79.73L127.42,79.19L127.49,78.75L127.85,78.37L127.99,78.59L128.2,79.16L128.49,78.27L128.78,78.9L128.85,80.27L128.92,79.9L129.21,81.76L129.28,82.44L130.21,77.65L130.28,78.07L130.78,81.23L130.99,79.51L131.21,80.18L131.42,81.63L131.78,80.42L131.85,80.03L131.92,78.77L132.5,81.54L132.71,80.49L133.5,77.39L133.78,77.25L133.93,77.37L134,76.85L134.21,76.87L134.28,76.64L134.86,77.33L134.93,77.22L135,78.44L135.21,78.1L135.29,79.54L135.36,79.7L135.43,78.65L135.5,79.16L135.72,78.03L136,76.94L136.43,79.05L136.5,78.85L136.72,77.83L136.86,78.91L137.43,77.63L137.5,77.18L138,78.03L138.29,77.38L138.36,76.94L138.51,76.55L138.86,76.99L138.93,77.86L139.36,78.07L139.51,76.61L139.72,77.05L139.79,77.3L140.44,76.01L140.51,76.21L140.79,77.1L140.87,76.31L141.44,77.44L141.51,77.56L141.72,78.11L141.94,76.91L142.23,77.9L142.3,77.42L142.8,76.28L142.87,76.92L142.94,77.17L143.87,79.44L143.94,79.25L144.01,78.22L144.73,76.12L144.94,77.18L145.02,78.09L145.23,78.58L145.3,77.54L145.37,76.92L146.02,78.18L146.23,77.1L147.31,86.72L147.38,83.75L147.45,81.84L147.73,82.46L147.81,84.84L148.31,82.58L148.52,82.92L148.74,83.24L148.88,81.52L149.38,83.82L149.45,84.09L149.74,86.14L150.02,83.31L150.24,81.86L150.31,82.15L150.52,80.73L150.74,80.62L150.88,81.57L151.24,79.96L151.38,80.56L151.45,79.2L152.31,76.87L152.38,77.17L152.89,78.28L152.96,79.46L153.03,80.4L153.53,77.71L153.74,77.81L154.32,77.16L154.39,78.1L154.53,77.6L155.03,80.83L155.25,80.44L155.32,79.57L155.39,78.36L155.53,81.11L155.96,78.85L156.25,79.04L156.32,78.15L156.75,80.82L156.82,80.65L156.89,81.73L157.54,86.2L157.82,86.16L157.89,87.05L158.04,85.12L158.47,85.67L158.54,83.76L158.75,83.8L158.82,85.28L158.97,84.77L159.04,86.21L159.25,87.29L159.4,87.36L159.47,88.28L160.25,83.55L160.4,84.19L160.47,83.3L160.76,84.09L160.83,82.21L162.04,79.32L162.26,79.23L162.76,79.83L162.9,78.73L162.97,78.9L163.04,78.37L163.47,79.63L163.55,79.4L163.76,79.63L164.4,77.17L164.55,77.61L164.76,77.76L164.9,77.46L165.05,78.68L165.26,78.02L165.33,78.76L165.83,77.9L166.05,79.44L166.26,78.62L166.48,79.71L166.91,77.65L166.98,77.67L167.91,76.49L167.98,76.64L168.55,78.44L168.77,77.95L168.84,77.72L168.91,77.86L168.98,76.72L169.05,79.81L169.27,81.31L169.41,78.46L169.48,77.31L169.84,77.73L171.06,74.22L171.34,74.45L171.41,74.56L171.84,74.95L172.77,73.6L172.85,74.09L173.35,73.73L173.49,74.32L173.56,74.46L174.42,73.76L174.49,73.96L174.56,76.14L174.92,76.22L175.49,74.13L175.56,74.64L175.78,75.39L175.92,74.36L176.57,75.08L176.78,74.68L177.28,76.19L177.57,75.59L177.78,75.18L178.57,77.87L178.78,75.98L180.07,72.66L180.29,73.13L180.57,73.53L180.79,73.01L180.86,72.7L181.36,70.28L181.57,70.84L181.79,70.66L182.36,70.4L182.43,71.17L182.5,71.2L182.58,71.62L182.93,70.32L183,70.39L183.08,70.07L184.01,70.61L184.08,70.3L184.29,70.55L185.08,69.24L185.29,69.44L185.58,68.48L185.79,67.98L186.8,66.3L186.87,66.55L186.94,65.23L187.58,66.18L187.8,66.15L187.94,65.67L188.8,67.44L188.87,66.75L189.01,66.37L189.44,66.98L189.59,66.87L189.8,66.81L190.02,67.96L190.45,67.58L190.52,66.86L190.59,67.15L190.87,65.53L190.95,65.58L191.02,65.52L191.09,65.71L191.59,65.1L191.8,65.09L192.38,65.04L192.45,66.81L193.59,63.48L193.81,63.6L194.31,63.87L194.38,63.43L194.59,63.72L194.81,62.89L195.52,64.27L195.6,64.11L195.81,63.89L196.03,64.67L196.53,63.12L196.6,62.66L197.38,61.93L197.46,61.9L198.03,62.13L198.1,61.94L198.31,61.78L198.53,63.51L198.89,62.44L198.96,62.3L199.1,64.03L199.6,63.32L199.82,63.27L200.96,61.07L201.03,61.18L201.1,60.99L202.11,60.21L202.32,59.82L203.39,58.59L203.47,58.51L203.97,58.68L204.11,57.7L204.32,58.04L204.4,57.94L204.97,57.16L205.33,57.55L205.4,57.79L205.47,58.37L205.9,56.97L205.97,57.05L206.11,56.83L206.33,56.88L206.4,55.83L207.4,54.33L207.47,54.38L207.54,54.82L207.83,53.27L208.04,53.49L208.12,53.54L208.62,53.94L208.9,53.04L209.98,48.7L210.05,48.88L210.12,48.38L210.62,45.84L210.91,47.89L210.98,47.83L211.55,57.71L211.91,54.37L211.98,52.92L212.84,49.63L212.91,51.07L213.05,53.77L213.55,51.28L213.62,49.35L213.91,50.21L213.98,50.85L214.13,50.75L214.34,52.34L214.41,52.18L214.48,52.38L214.55,55.16L214.84,54.55L215.34,57.67L215.41,56.35L215.63,56.75L216.06,54.33L216.13,54.64L216.34,53.77L216.49,52.52L216.92,55.53L217.06,54.21L217.13,54.09L217.56,55.72L217.85,53.98L217.92,54.01L218.35,51.64L218.63,52.34L218.85,51.52L219.42,53.28L219.56,52.65L219.63,51.46L220.42,49.33L220.64,49.63L220.85,49.87L221.49,52.88L221.92,52.33L222.07,51.38L223,48.16L223.07,48.62L223.43,47.97L223.5,46.93L223.86,48.69L224.14,47.16L224.36,46.75L224.43,46.42L224.86,47.91L224.93,47.17L225,48.05L226,44.16L226.07,44.69L226.57,45.63L226.65,45.89L227.5,44.41L227.58,43.48L228,44.49L228.43,43.78L228.51,43.7L229.08,51.71L229.65,50.11L229.86,50.59L230.37,55.26L230.44,53.57L230.51,52.39L231.01,48.24L231.15,49.57L231.37,51.8L231.65,51.39L231.87,53.24L231.94,55.23L232.15,55.61L232.87,49.19L232.94,52.86L233.08,53.03L233.16,55.59L233.59,54.88L233.66,56.94L234.37,67.06L234.52,62.31L234.59,61.45L235.02,60.59L235.09,63.12L235.95,56.51L236.02,56.28L236.16,54.06L236.66,54.3L236.88,55.15L236.95,55.31L237.02,53.64L237.09,52.7L237.45,51.33L237.66,52.55L237.88,52.47L238.66,49.1L238.88,48.96L239.17,48.65L239.52,49.96L239.59,50.88L239.67,51.12L239.88,49.48L239.95,49.14L240.6,46.57L240.67,48.77L240.88,48.87L241.88,44.91L241.96,45.62L242.96,43.36L243.03,43.63L243.1,43.67L243.6,44.02L243.67,42.88L243.89,43.41L244.39,48.32L244.67,46.38L244.89,47.16L244.96,46.18L245.46,48.7L245.53,49.49L245.6,49.25L245.68,50.75L245.89,51.06L246.61,45.07L246.68,45.26L246.89,45.15L247.11,42.53L247.68,43.04L247.89,42.12L248.9,40.09L248.97,40.5L249.18,41.62L249.54,39.87L249.61,40.52L249.68,39.62L249.97,40.13L250.04,41.46L250.4,46.98L250.9,45.44L250.97,43.66L251.04,47.15L251.69,46.88L251.9,45.61L251.97,45.99L252.19,43.66L252.47,44.48L253.12,40.28L253.4,40.75L253.47,40.43L253.9,41L253.97,42.02L254.05,41.28L254.48,43.1L254.55,45.24L255.48,40.84L255.55,41.09L255.62,40.75L255.69,41.23L256.19,39.75L256.41,39.06L258.55,34.42L258.7,34.93L258.91,36.04L258.98,36.88L259.2,34.73L259.55,34.91L259.63,33.81L261.13,30.18L261.2,31.12L262.13,27.78L262.2,27.26L262.7,28.65L262.92,30.76L263.2,31.5L263.63,26.6L263.7,27.34L263.92,26.35L264.56,24.96L264.63,25.49L264.71,26.93L266.92,71.68L267,63.14L267.14,55.71L267.5,57.56L267.57,62.2L268.71,45.77L268.93,47.86L269,51.38L269.57,43.13L269.64,44.23L269.71,47.55L270,46.02" style="vector-effect: non-scaling-stroke; fill: none; stroke: rgb(151, 21, 28); stroke-opacity: 1; stroke-width: 2px; opacity: 1;">
+</path>
+</g>
+<g class="points">
+</g>
+<g class="text">
+</g>
+</g>
+</g>
+</g>
+<g class="overplot">
+</g>
+<path class="xlines-above crisp" d="M49,142.5H320" style="fill: none; stroke-width: 1px; stroke: rgb(0, 0, 0); stroke-opacity: 1;">
+</path>
+<path class="ylines-above crisp" d="M49.5,20V142" style="fill: none; stroke-width: 1px; stroke: rgb(68, 68, 68); stroke-opacity: 1;">
+</path>
+<g class="overlines-above">
+</g>
+<g class="xaxislayer-above">
+<g class="xtick">
+<text text-anchor="middle" x="0" y="155" data-unformatted="2015" data-math="N" transform="translate(180.42,0)" style="font-family: Raleway; font-size: 10px; fill: rgb(68, 68, 68); fill-opacity: 1; white-space: pre;">2015</text>
+</g>
+<g class="xtick">
+<text text-anchor="middle" x="0" y="155" data-unformatted="2020" data-math="N" transform="translate(311.06,0)" style="font-family: Raleway; font-size: 10px; fill: rgb(68, 68, 68); fill-opacity: 1; white-space: pre;">2020</text>
+</g>
+</g>
+<g class="yaxislayer-above">
+<path class="ytick ticks crisp" d="M49,0h-10" transform="translate(0,142)" style="stroke: rgb(68, 68, 68); stroke-opacity: 1; stroke-width: 1px;">
+</path>
+<path class="ytick ticks crisp" d="M49,0h-10" transform="translate(0,101.33)" style="stroke: rgb(68, 68, 68); stroke-opacity: 1; stroke-width: 1px;">
+</path>
+<path class="ytick ticks crisp" d="M49,0h-10" transform="translate(0,60.67)" style="stroke: rgb(68, 68, 68); stroke-opacity: 1; stroke-width: 1px;">
+</path>
+<path class="ytick ticks crisp" d="M49,0h-10" transform="translate(0,20)" style="stroke: rgb(68, 68, 68); stroke-opacity: 1; stroke-width: 1px;">
+</path>
+<g class="ytick">
+<text text-anchor="end" x="37" y="3.5" data-unformatted="1000" data-math="N" transform="translate(0,142)" style="font-family: Raleway; font-size: 10px; fill: rgb(68, 68, 68); fill-opacity: 1; white-space: pre;">1000</text>
+</g>
+<g class="ytick">
+<text text-anchor="end" x="37" y="3.5" data-unformatted="2000" data-math="N" transform="translate(0,101.33)" style="font-family: Raleway; font-size: 10px; fill: rgb(68, 68, 68); fill-opacity: 1; white-space: pre;">2000</text>
+</g>
+<g class="ytick">
+<text text-anchor="end" x="37" y="3.5" data-unformatted="3000" data-math="N" transform="translate(0,60.67)" style="font-family: Raleway; font-size: 10px; fill: rgb(68, 68, 68); fill-opacity: 1; white-space: pre;">3000</text>
+</g>
+<g class="ytick">
+<text text-anchor="end" x="37" y="3.5" data-unformatted="4000" data-math="N" transform="translate(0,20)" style="font-family: Raleway; font-size: 10px; fill: rgb(68, 68, 68); fill-opacity: 1; white-space: pre;">4000</text>
+</g>
+</g>
+<g class="overaxes-above">
+</g>
+</g>
+</g>
+<g class="polarlayer">
+</g>
+<g class="ternarylayer">
+</g>
+<g class="geolayer">
+</g>
+<g class="funnelarealayer">
+</g>
+<g class="pielayer">
+</g>
+<g class="treemaplayer">
+</g>
+<g class="sunburstlayer">
+</g>
+<g class="glimages">
+</g>
+</svg>
+<div class="gl-container">
+</div>
+<svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="340" height="200">
+<defs id="topdefs-1153ed">
+<g class="clips">
+</g>
+<clipPath id="legend1153ed">
+<rect width="78" height="29" x="0" y="0">
+</rect>
+</clipPath>
+</defs>
+<g class="indicatorlayer">
+</g>
+<g class="layer-above">
+<g class="imagelayer">
+</g>
+<g class="shapelayer">
+</g>
+</g>
+<g class="infolayer">
+<g class="legend" pointer-events="all" transform="translate(42.518072289155, 159.397994987502)">
+<rect class="bg" shape-rendering="crispEdges" width="78" height="29" x="0" y="0" style="stroke: rgb(68, 68, 68); stroke-opacity: 1; fill: rgb(255, 255, 255); fill-opacity: 1; stroke-width: 0px;">
+</rect>
+<g class="scrollbox" transform="translate(0, 0)" clip-path="url('#legend1153ed')">
+<g class="groups">
+<g class="traces" transform="translate(0, 14.5)" style="opacity: 1;">
+<text class="legendtext user-select-none" text-anchor="start" x="40" y="3.9" data-unformatted="^GSPC" data-math="N" style="font-family: Raleway; font-size: 10px; fill: rgb(68, 68, 68); fill-opacity: 1; white-space: pre;">^GSPC</text>
+<g class="layers" style="opacity: 1;">
+<g class="legendfill">
+</g>
+<g class="legendlines">
+<path class="js-line" d="M5,0h30" style="fill: none; stroke: rgb(151, 21, 28); stroke-opacity: 1; stroke-width: 2px;">
+</path>
+</g>
+<g class="legendsymbols">
+<g class="legendpoints">
+</g>
+</g>
+</g>
+<rect class="legendtoggle" pointer-events="all" x="0" y="-9.5" width="74.53125" height="19" style="cursor: pointer; fill: rgb(0, 0, 0); fill-opacity: 0;">
+</rect>
+</g>
+</g>
+</g>
+<rect class="scrollbar" rx="20" ry="3" width="0" height="0" x="0" y="0" style="fill: rgb(128, 139, 164); fill-opacity: 1;">
+</rect>
+</g>
+<g class="g-gtitle">
+</g>
+<g class="g-xtitle">
+</g>
+<g class="g-ytitle">
+<text class="ytitle" transform="rotate(-90,16,81)" x="16" y="81" text-anchor="middle" data-unformatted="$" data-math="N" style="font-family: Raleway; font-size: 12px; fill: rgb(68, 68, 68); opacity: 1; font-weight: normal; white-space: pre;">$</text>
+</g>
+</g>
+<g class="menulayer">
+</g>
+<g class="zoomlayer">
+</g>
+</svg>
+<div class="modebar-container" style="position: absolute; top: 0px; right: 0px; width: 100%;">
+</div>
+<svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="340" height="200">
+<g class="hoverlayer">
+</g>
+</svg>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row ">
+<div class="four columns">
+<h6 class="gs-header gs-text-header padded">Performance (%)</h6>
+</div>
+<div class="eight columns">
+<p>This is an actively managed fund that is not designed to track its reference benchmark.                         Therefore the performance of the fund and the performance of its reference benchmark                         may diverge. In addition stated reference benchmark returns do not reflect any management                         or other charges to the fund, whereas stated returns of the fund do.</p>
+<strong>Past performance does not guarantee future results, which may vary.                         The value of investments and the income derived from investments will fluctuate and                         can go down as well as up. A loss of capital may occur.</strong>
+</div>
+</div>
+<div class="row ">
+<div class="four columns">
+<h6 class="gs-header gs-text-header padded">Fund Data</h6>
+</div>
+<div class="eight columns">
+<h6 class="gs-header gs-table-header padded">Performance Summary (%)</h6>
+<h6 class="gs-header gs-table-header padded">Calendar Year Performance (%)</h6>
+</div>
+</div>
+</div>

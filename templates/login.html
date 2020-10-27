@@ -1,0 +1,6 @@
+{% extends "layout.xhtm" %}
+{% block content %}
+  {# <iframe src="http://login.beyondbond.com" style="width:90%;height:520px" ></iframe> #}
+  {% include "login.j2" %}
+  {{status|safe}}
+{% endblock %}

@@ -1,0 +1,19 @@
+<div style="height:50px;background:#d2e0d6;position:relative;font:bold 16pt arial,sans-serif;text-align:center;width:100%;border-bottom:2px solid darkgreen;padding:5px;">
+<a href="/" style="margin-left:5px;float:left">
+<img src="/favicon.ico">
+</a>
+<span id=headline >
+{%- if fund -%} FUND: {{fund|safe}} {%- endif -%}
+</span>
+{%- if user -%}
+<span style="float:right;font:12pt arial,sans-serif" >
+  Hi {{user|safe}} 
+</span>
+{%- else -%}
+  {% block findStock %}
+  <div style="margin-right:5px;float:right">
+  <img src="/images/logo_powersmall.gif" >
+  </div >
+  {% endblock %}
+{%- endif -%}
+</div>

@@ -1,0 +1,29 @@
+{% extends "layout.xhtm" %}
+{% block content %}
+  {% if mktidx_performance %}
+  <H3>{{mktidx_performance['comment']|safe}}</H3>
+  {% endif %}
+  @ {{rpt_time|safe}}
+  <div class="panel panel-default">
+  <div style = "position:relative">
+        <video id=stock_video width="600px" controls >
+          {% if videoPath is defined %}
+          <source src="videos/{{videoPath}}" type="video/mp4">
+          {% else %}
+          <source src= type="video/mp4">
+          {% endif %}
+        </video>
+  </div>
+  <span >
+  {{comment|safe}}
+  </span>
+  </div>
+
+  <script>
+    $("[id=headline]").html("{{headTitle|safe|safe}}")
+  </script>
+{% endblock %}
+
+{% block section %}
+{% include "section.j2" %}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "layout.xhtm" %}
+{% block row_1 %}
+  {% include "news_finder.j2" %}
+{% endblock %}
+{% block content %}
+  {% include "news.j2" %}
+  {{content|safe}}
+  {{news or "TO BE ANNOUNCED"}}
+  Testing React Button:
+  <div id="like_button_container"></div>
+  <script src="/js/like_button.js"></script>
+{% endblock %}

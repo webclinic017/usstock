@@ -1,0 +1,40 @@
+
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#">summary</a></li>
+    <li><a href="#">chart</a></li>
+    <li><a href="#">profile</a></li>
+  </ul>
+<script>
+  function quoteTab(data,idName) {
+    var  myarr=['ticker','open','close','marketCap','epsForward'];
+    var html = '<TABLE><TBODY><TR>';
+    var j=0;
+    $.each(Object.entries(data),function(i,xe){
+      //if(myarr.indexOf(xe[0]) > -1) {
+        html += '<td>' + xe[0] + '</td><td>' + xe[1] + '</td>';
+        if(j>0 && (j+1)%2==0 ){html+='</TR><TR>';}
+        j++;
+      //}
+    });
+    html += '</TR></TBODY></TABLE>';
+    $('#'+idName).html(html);
+  }
+</script>
+<style>
+p {float:right}
+.secClass {clear:both}
+</style>
+
+<DIV id=overviewSec >
+</div><div class=secClass id=summary_sec >
+</div><div class=secClass id=chart_sec >
+</div><div class=secClass id=profile_sec >
+</DIV>
+
+{% if datax %}
+  <script>
+    var datax={{datax|safe}};
+    quoteTab(datax,idName='summary_sec');
+
+  </script>
+{% endif %}

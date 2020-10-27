@@ -1,0 +1,54 @@
+<style>
+sub_page {
+width:800px;
+}
+[id$="Chart"] {
+width:550px;height:300px;
+display:block;
+clear:both;
+}
+#summaryTable {
+margin:20px
+}
+</style>
+<div class="sub_page" >
+<div id=summary >
+  <H2>
+  {{stock_performance.comment|safe}}
+  </H2>
+  {{ s2dt(stock_performance.pbdt).strftime("%m/%d/%Y %H:%M:%S")|safe }}
+  <img id=summaryChart src="{{stock_performance.chartpath|safe}}" >
+  {{comment|safe}}
+  </div> <div id=stockPerf >
+  {% set kyLst=['ticker','close','volume','fiftyTwoWeekRange','marketCap','epsTrailingTwelveMonths','company','company_cn','high','low','sector','sector_cn','change','sharesOutstanding'] %}
+  <table id=summaryTable > <tr>
+  {% set count = [0] %}
+  {% for ky in kyLst if ky in stock_performance %}
+       {% set val=stock_performance[ky] %}
+       <td>{{ky}}:</td> <td>{{val}}</td>
+       {% if count.append(count.pop() + 1) %}{% endif %} {# increment count by 1 #}
+
+         {% if count[0]%2 ==0 %}
+         </tr> <tr>
+         {% endif %}
+  {% endfor %}
+  </tr> </table>
+  與其相關個股: {{stock_performance.peersList|safe}}
+  </div> <div id=etfPerf >
+  {% if etf_performance %}
+  <img id=etfChart src="{{etf_performance.chartpath or '/' |safe}}" >
+  {{etf_performance.comment|safe}}
+  {% endif %}
+  </div> <div id=peersPerf >
+  <img id=dailyPeerChart src="{{daily_peers.chartpath|safe}}" >
+  {{daily_peers.comment|safe}}
+  </div> <div id=dailyPerf >
+  <img id=peersChart src="{{peers_performance.chartpath|safe}}" >
+  {{peers_performance.comment|safe}}
+  </div> <div id=earningsPerf >
+  {% if earnings_performance %}
+  <img id=earningsChart src="{{earnings_performance.chartpath|safe}}" >
+  {{earnings_performance.comment|safe}}
+  {% endif %}
+  </div>
+</div>

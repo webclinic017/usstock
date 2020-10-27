@@ -1,0 +1,21 @@
+{% extends "layout.xhtm" %}
+{% block row_1 %}
+  {% if subtopic=='majorplayer' %}
+    {% include "majorplayer.j2" %}
+  {% elif topic=='filter' %}
+    {% include "filter.j2" %}
+  {% elif topic=='ytdRtn' %}
+    {% include "topic_ytdRtn.j2" %}
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {{content | safe}}
+
+{% if fund is defined %}
+  <<title>{{fund|safe}}</title>
+  <script>
+    $("select[name='fund']")[0].value="{{fund}}";
+  </script>
+{% endif %}
+{% endblock %}

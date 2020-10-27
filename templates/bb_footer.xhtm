@@ -1,0 +1,15 @@
+<div style="margin:5px">
+    <p style="font:8pt arial,sans-serif;width:100%;text-align:left;border-top:1px solid black;padding-top:3px;">
+    <b>DISCLAIMER</b>:
+    The information, opinions and analysis
+    contained herein are based on sources believed to be reliable but no
+    representation, expressed or implied, is made as to its accuracy,
+    completeness or correctness.  Past performance is no guarantee of future
+    results. The opinions contained herein reflect our current judgment and are
+    subject to change without notice. 
+    <span style="float:right;font-size:8pt;color:black">
+    <b>
+    &copy; Copyright {{ year or 2020 }} by Beyondbond, Inc.
+    </b>
+    </span>
+</div>

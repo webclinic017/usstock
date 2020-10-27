@@ -1,0 +1,235 @@
+<STYLE>
+select {
+    border:1px solid #ccc;
+    vertical-align:top;
+    height:20px;
+}
+input, select{
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+.odd {background:lightgray}
+.panel-heading {
+min-height:36px;
+}
+
+h4.panel-title {
+  float:right;
+}
+</STYLE>
+
+<div id="ajaxBusy" style="float:right;display:hide;margin-right:5px;">
+Video producing ... <img src="/images/IndicatorLoader.gif"> </div>
+<h4> Stock Performance Page </h4>
+<FORM action="" method="POST" onsubmit="run_anaz(0);run_anaz(1);return false;" > <p>
+Ticker <input type="text" id="tickerList" name="ticker" value="{{ticker or 'AAPL'|safe}}" /> 
+<select name=lang>
+         <option selected value=cn >中文</option> 
+         <option value=en >English</option> 
+</select>
+<!-input type = "submit" value = "FIND" /->
+<input id=anaz  type = "button" value = "Analyze" />
+</p>
+</FORM>
+
+<div class="panel-group" id="accordion">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+          Quote
+          <span class="glyphicon glyphicon-minus"></span>
+        </a>
+      </h4>
+    </div>
+    <div id="collapse1" class="panel-collapse collapse show">
+      <div class="panel-body" id=quote > {{quote|safe}} </div>
+    </div>
+  </div>
+
+  <!-- div class="panel panel-default">
+	<video id=stock_video width="600" controls>
+	  {% if mp4path is defined %}
+	  <source src="{{mp4path}}" type="video/mp4">
+	  {% else %}
+	  <source src= type="video/mp4">
+	  {% endif %}
+	</video>
+  </div -->
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+          Figure. Intraday Candlestick
+          <span class="glyphicon glyphicon-minus"></span>
+        </a>
+      </h4>
+    </div>
+    <div id="collapse2" class="panel-collapse collapse show">
+      <div class="panel-body" id=intraday >
+	<iframe src="hc_intraday.html?ticker={{ticker or 'AAPL' }}" style="width:90%;height:320px" ></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+          Figure. Price & Earnings History
+          <span class="glyphicon glyphicon-plus"></span>
+        </a>
+      </h4>
+    </div>
+    <div id="collapse3" class="panel-collapse collapse in">
+      <div class="panel-body" id=interday >
+	<iframe src="hc_ohlc.html?ticker={{ticker or 'AAPL' }}" style="width:90%;height:420px" ></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse4">
+          Company Summary
+          <span class="glyphicon glyphicon-minus"></span>
+        </a>
+      </h4>
+    </div>
+    <div id="collapse4" class="panel-collapse collapse show">
+      <div class="panel-body" id=company > {{company|safe}} </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse5">
+          Earnings
+          <span class="glyphicon glyphicon-plus"></span>
+        </a>
+      </h4>
+    </div>
+    <div id="collapse5" class="panel-collapse collapse in">
+      <div class="panel-body" id=earnings > {{earnings|safe}} </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse6">
+          Financials
+          <span class="glyphicon glyphicon-plus"></span>
+        </a>
+      </h4>
+    </div>
+    <div id="collapse6" class="panel-collapse collapse in">
+      <div class="panel-body" id=financials > {{financials|safe}} </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse7">
+          Internal Only
+          <span class="glyphicon glyphicon-minus"></span>
+        </a>
+      </h4>
+    </div>
+    <div id="collapse7" class="panel-collapse collapse show">
+      <div class="panel-body" id=internal >
+	<div id=error_message style="width:600px">
+	{% if error_message %}
+	  {{error_message}}
+	{% endif %}
+	</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script type=text/javascript>
+
+function quoteTable(dataLst) {
+  data=JSON.parse(dataLst)[0];
+  var  myarr=['ticker','open','close','marketCap','epsForward'];
+  var html = '<TABLE><TBODY><TR>';
+  var j=0;
+  $.each(Object.entries(data),function(i,xe){
+    //if(myarr.indexOf(xe[0]) > -1) {
+      html += '<td>' + xe[0] + '</td><td>' + xe[1] + '</td>';
+      if(j>0 && (j+1)%2==0 ){html+='</TR><TR>';}
+      j++;
+    //}
+  });
+  html += '</TR></TBODY></TABLE>';
+  $('#quote').html(html);
+}
+
+function run_anaz(videoYN=1) {
+    var args={};
+    $('form').serializeArray().map(function(x){args[x.name] = x.value;});
+    args["videoYN"] = videoYN;
+    if(videoYN==0) {
+      $('iframe')[0].src = "hc_intraday.html?ticker="+args.ticker;
+      $('iframe')[1].src = "hc_ohlc.html?ticker="+args.ticker;
+    }
+    urlname='/api'+'?search=quote&instrument=stock&topic=detailed&output=json&api_key=e0e83fbe0893ee7a039c4f569083d0a1&ticker='+args.ticker;
+    $.ajax({
+      timeout: 300000,
+      type: 'GET',
+      url: urlname,
+      //data:dataStr, 
+      processData: false,
+      //contentType: "application/json",
+      contentType: "text/html",
+      dataType: "text",
+      //jsonpCallback: 'quoteTable',
+      statusCode: { 401: function() { alert("page not found"); } },
+      success: quoteTable
+    });
+    return false;
+}
+
+$('#ajaxBusy').hide();
+
+
+// Initialization
+    $('.collapse').on('shown.bs.collapse', function(){
+    $(this).parent().find(".glyphicon-plus").removeClass("glyphicon-plus").addClass("glyphicon-minus");
+    }).on('hidden.bs.collapse', function(){
+    $(this).parent().find(".glyphicon-minus").removeClass("glyphicon-minus").addClass("glyphicon-plus");
+    });
+
+$(function() {
+   //if(typeof ticker.value == "undefined") ticker.value=ticker.innerText="AAPL"
+   // Initial run to ensure video clip is also up-to-date
+    run_anaz(1); // videoYN=0 is already run during the page initialization
+
+   // Ajax activity indicator bound to ajax start/stop document events
+   $(document).ajaxStart(function(){
+      //$.blockUI({msg:$('#ajaxBusy'),css{width:'100%',height:'100%'}}).ajaxStop(function(){$.unblockUI();});
+      $('#ajaxBusy').show(); }).ajaxStop(function(){ $('#ajaxBusy').hide();
+    });
+ 
+   // Bind -/+ hide/show button to hideShow_[ID]
+    $("[id^='hideShow']").click(function(e){
+        pid=this.id.replace('hideShow_','#')
+        $(pid).toggle();
+        if(this.getAttribute("class")=="glyphicon glyphicon-plus")
+                this.setAttribute("class","glyphicon glyphicon-minus")
+        else if(this.getAttribute("class")=="glyphicon glyphicon-minus")
+                this.setAttribute("class","glyphicon glyphicon-plus")
+    });
+
+   // Bind "anaz" button
+    $('#anaz').bind('click', function() {
+      run_anaz(0);
+      ret = run_anaz(1);
+      return ret;
+    });
+    $('#ajaxBusy').hide();
+});
+</script>

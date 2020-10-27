@@ -1,0 +1,22 @@
+<FORM id="filterForm" action='/portfolio?search=list&topic=filter' method='post' onsumbit="return function(data){}" >
+<SELECT name=subtopic>
+  <OPTION SELECTED value=mostactive > Most Active
+  </OPTION>
+  <OPTION value=gainers >Day Gainers
+  </OPTION>
+  <OPTION value=losers >Day Losers
+  </OPTION>
+  <OPTION value=industry >Industry
+  </OPTION>
+  <OPTION  value="5%" > +5%
+  </OPTION>
+  <OPTION  value="-5%"  >-5%
+  </OPTION>
+</SELECT>
+<input hidden type="submit" name="submit" value="Run">
+</FORM>
+<script>
+  //$("select[name='subtopic']").val("{{subtopic | safe}}").attr("selected",true);
+  $("select[name='subtopic']")[0].value="{{subtopic|safe}}";
+</script>
+

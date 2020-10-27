@@ -1,0 +1,55 @@
+<script>
+  function hideShow(s) {
+    $('#overviewSec').toggle();
+    if ($('#sec_hideShow span').attr('class')=="glyphicon glyphicon-plus")
+      $('#sec_hideShow span').attr('class',"glyphicon glyphicon-minus") ;
+    else
+      $('#sec_hideShow span').attr('class',"glyphicon glyphicon-plus") ;
+    return false;
+   }
+</script>
+<style>
+img {max-width:800px;float:left}
+p {float:right}
+.secClass {clear:both}
+.showT {background:red}
+.showT blue {background:blue}
+</style>
+<h3 id=sec_hideShow style="clear:both;margin:2pt;border-bottom-style: solid; border-bottom-color:green;" onclick="javascript:hideShow();" ><span class="glyphicon glyphicon-minus"></span> &nbsp;Detailed Report</h3>
+<DIV id=overviewSec >
+<div id=intraday_headline >
+</div><div class=secClass id=mktidx_performance >
+</div><div class=secClass id=stock_performance >
+</div><div class=secClass id=daily_mostactive >
+</div><div class=secClass id=daily_peers >
+</div><div class=secClass id=peers_performance >
+</div><div class=secClass id=earnings_performance >
+</div><div class=secClass id=etf_performance >
+</div><div class=secClass id=daily_macro >
+</div><div class=secClass id=daily_conclusion >
+</div> 
+</DIV>
+
+{% if datax %}
+  <script>
+    function createSec(s) {
+      var ht='<figure>';
+      ht +=`<figcaption> ${s.comment} </figcaption> `; 
+      ht +=`<img  src="${s.chartPath}" > `; 
+      ht +='</figure>'
+      return ht;
+    }
+    var datax={{datax|safe}};
+
+    var secD={};
+    var tmp = Object.entries(datax).filter(function(x){
+      if(typeof x[1]=='object') {
+        ht =createSec(x[1]);
+        $('#'+x[0]).html(ht);
+        secD[x[0]]=x[1] ;
+      }
+    })
+
+
+  </script>
+{% endif %}
