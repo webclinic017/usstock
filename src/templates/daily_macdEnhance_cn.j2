@@ -1,0 +1,14 @@
+{# MACD enhancement clause #}
+
+{# check the buy/sell strategy consistency (1 for same direction) of forecast and macd #}
+{%- if ynCode==1 -%}
+{{prepositionWd}}，{{strategyName}}的{{comingTrendWd}}訊號也在{{pastDayWd}}出現。
+{# 目前{{continueTrendWd}}{{continueStatusClause}}，#} 與{{enhanceName}}的方向一致，進而發出更加明確的{{comingLookoutWd}}訊息。
+在之前同一期間也有過{{countWd}}次{{strategyName}}，{{trrAdv}}回測獲利為{{trrPct}}{{trrAddClause}}。
+
+{%- else -%}
+{{prepositionWd}}，{{strategyName}}的{{comingTrendWd}}訊號也在{{pastDayWd}}出現。
+{# 目前{{continueTrendWd}}{{continueStatusClause}}，#} 可惜與{{enhanceName}}的方向並不一致。
+此時趨勢呈現模糊不清的訊息，不{{rdWord('適宜太過意氣用事，|可暴虎馮河，|可過於衝動，|值得心血來潮，|建議')}}貿然採取任何進出行動。
+
+{%- endif -%}

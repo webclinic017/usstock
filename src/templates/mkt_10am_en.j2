@@ -1,0 +1,17 @@
+{#
+{{title}}
+{{xprice}}
+{{f.head(2)}}
+{{f.tail(2)}}
+{{dfdf}}
+{{f.describe()}}
+#}
+{% set pctChg_open = copen/xprice-1 %}
+{% set trend_open = udfStr(pctChg_open,['higher','lower','flat'],0.0035) %}
+{% set pctChg_hourly = f['close'].iloc[-1]/f['close'].iloc[0]-1 %}
+{% set trend_hourly = udfStr(pctChg_hourly,['entered positive territory','entered negative territory','stayed flat'],0.0035) %}
+{% set alert_volume = udf_word(volS,[' with high volume',' with low volume',''],[ubound,lbound]) %}
+
+{{rpt_time}} Report:
+{{title}} opened {{ trend_open }} and then it {{trend_hourly}}{{alert_volume}}.
+

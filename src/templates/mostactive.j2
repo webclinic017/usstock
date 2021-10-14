@@ -1,0 +1,39 @@
+{% if _pn_ is undefined %} {% set _pn_={} %} {% endif %}
+{% set templateName = 'daily_mostactive' %}
+{% if tmplLst is undefined %} {% set tmplLst=[] %} {% endif %}
+{% set mp3YN = mp3YN or False %}
+{% set lang = lang or 'cn' %}
+{% set dirname = dirname or 'templates' %}
+{% set outdir = outdir or 'US/mp3_hourly' %}
+{% set plotTemp = getattr(import_module('plot_templates'),'plot_templates') %}
+{% set bbpre = getattr(import_module('yh_predefined'),'bb_predefined') %}
+{% set mostactive = bbpre('most_actives',addiFilter=1) %}
+{%- if mostactive is defined and len(mostactive)>0 -%}
+  {%- set maLst=list(map(lambda x: x,mostactive[['company_cn','ticker','changePercent']].values )) -%}
+
+  {% set hourlyObj={} %}
+  {% set tkStr = ", ".join(mostactive['ticker']) %}
+  {%- if lang=='cn'  -%}
+    {% set precmt = "目前的成交熱門股為{}。".format(maLst) %}
+  {%- else -%}
+    {% set precmt = "The most active trading stocks include {}.".format(tkStr) %}
+  {%- endif  -%}
+  {% set tkX = mostactive['ticker'].iloc[0] %}
+  {%- if ticker is defined and ticker!=tkX -%}
+    {{ precmt }}
+    {{ hourly_eod(tkX,start,end_hm=end_hm,lang=lang,mp3YN=mp3YN,hourlyObj=hourlyObj,saveDB=False) }}
+    {% do hourlyObj.update(comment = precmt+ hourlyObj['comment']) %}
+    {% do hourlyObj.update(mp3comment = precmt+ hourlyObj['mp3comment']) %}
+    {# plotting #}
+    {% set df = hourlyObj['f'] %}
+    {%- set chartname = "{}_{}_{}.{}".format(templateName,tkX,dt2ymd(cdt,"%s"),"svg") %}
+  {%- set sub = getattr(import_module('re'),'sub') -%}
+  {%- set chartname = sub('[\^= ]','',chartname) -%}
+    {%- set chartpath,ax1,fig= plotTemp(df[['close']],title=tkX,funcname='plot_ts',chartname=chartname,chartdir=outdir) -%}
+    {% do hourlyObj.pop('f') %}
+    {% do hourlyObj.update(chartpath=chartpath) %}
+    {% do _pn_.update(daily_mostactive=hourlyObj) %}
+    {%- if tmplLst is defined -%} {%- do tmplLst.append(templateName) -%} {%- endif -%}
+    {%- do _pn_.update(tmplLst=tmplLst) -%}
+  {%- endif -%}
+{%- endif -%}

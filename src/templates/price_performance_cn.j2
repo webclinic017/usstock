@@ -1,0 +1,7 @@
+{% if _pn_ is undefined %} {% set _pn_={} %} {% endif %}
+{% set tkX=tkX or ticker %}
+{% set hourlyObj={} %}
+{% set instrument = instrument or 'stock' %}
+{% set perfKey = instrument + 'Performance' %}
+{{ hourly_eod(tkX,start,end_hm=end_hm,mp3YN=mp3YN,hourlyObj=hourlyObj) }}
+{% do _pn_.update({perfKey:hourlyObj}) %}

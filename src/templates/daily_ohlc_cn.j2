@@ -1,0 +1,29 @@
+{% if 'fcsChg' in f %} {% set fcsChg=f['fcsChg'] %} {% endif %}
+{% if 'lsc' in f %} {% set lsc=f['lsc'] %} {% endif %}
+
+
+{% if 'MACD' in strategyName %}
+{{label}}{{pastAdv}}在{{pastDayWd}}出現符合{{strategyName}}的{{comingTrendWd}}訊號。
+{#
+目前，訊號所衍生的{{comingTrendWd}}趨勢{{continueTrendWd}}{{continueStatusClause}}。
+#}
+{% if f['pnl_prd']>1 %}
+在過去{{monthWd}}的價格回側中，出現過{{countWd}}次{{strategyName}}信號，{{trrAdv}}回測獲利率為{{trrPct}}。 
+{% endif %}
+
+{%- else %}
+{{label}}{{pastAdv}}在{{pastDayWd}}出現符合{{strategyName}}的反轉訊號，開始{{comingTrendWd}}。
+{#
+目前，訊號所衍生的{{comingTrendWd}}趨勢{{continueTrendWd}}{{continueStatusClause}}。
+在過去{{monthWd}}的價格回側中，出現過{{countWd}}次{{strategyName}}信號，{{trrAdv}}回測獲利率為{{trrPct}}。
+#}
+{{enhanceClause}}
+
+{%- endif %}
+
+{%- if fcsChg %}
+{%- if (fcsChg>0.01 and lsi=='long' ) or (fcsChg<-0.01 and lsi=='short' )%}
+隨時把握{{rdWord('可以|適合')}}進出。
+{%- endif %}
+{%- endif %}
+

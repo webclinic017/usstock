@@ -11,6 +11,7 @@
     Last Mod., Wed Oct 24 10:31:10 EDT 2018
 """
 import sys,os
+import json
 from gevent.pywsgi import WSGIServer
 from flask import Flask, abort, jsonify, request, render_template
 from flask import send_from_directory,make_response
@@ -23,6 +24,7 @@ pguri = 'postgresql://sfdbo@localhost:5432/ara'
 pgDB = create_engine(pguri)
 
 sys.path.append("/apps/fafa/pyx/alan/")
+#sys.path.append("src/")
 from _alan_rmc import display_page
 
 @app.route('/favicon.ico') 
@@ -31,7 +33,7 @@ def favicon():
 
 @app.errorhandler(404)
 def not_found_error(e):
-	#return jsonify(error_code=404), 404
+	return jsonify(error_code=404), 404
 	sys.stderr.write("==error:{}\n{}:{}:{}\n".format(type(e),e.code,e.name,e.description))
 	errh= dict(code=e.code,name=e.name,description=e.description)
 	return render_template('errorhandler.html', **errh), 404

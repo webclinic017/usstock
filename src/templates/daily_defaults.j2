@@ -1,0 +1,11 @@
+{# SETUP default variables #}
+{% set t2l = getattr(import_module('ticker2label'),'ticker2label') %}
+{% set next_date = getattr(import_module('_alan_date'),'next_date') %}
+{% if _pn_ is undefined %} {% set _pn_={} %} {% endif %}
+{% set start = dt2ymd(next_date()) if start is undefined else start %}
+{% set dirname = 'templates/' if dirname is undefined else dirname %}
+{% set lang = 'cn' if lang is undefined else lang %}
+{% set mp3YN = False if mp3YN is undefined else mp3YN %}
+{% set rpt_time = next_date() if rpt_time is undefined else rpt_time %}
+{% set rptDateTimeWd = ymd2md(rpt_time,ym='%m%d %H:%M',lang=lang,mp3YN=mp3YN) %}
+{% do _pn_.update(start=start,lang=lang,mp3YN=mp3YN,rpt_time=rpt_time,rptDateTimeWd=rptDateTimeWd) %}

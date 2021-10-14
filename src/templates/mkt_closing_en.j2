@@ -1,0 +1,70 @@
+{%- block closing -%}
+{# for debugging purpose
+{{title}}
+{{xprice}}
+{{f.head(2)}}
+{{f.describe()}}
+{{dfdr}}
+{{dMnMx}}
+{{ volS }}
+{{ 'volume:{} in [{},{}]'.format(volS,ubound,lbound) }}
+{{dMnMx}}
+#}
+
+{% set pctChg_open = copen/xprice-1 %}
+{% set trend_open = udfStr(pctChg_open,['higher','lower','flat'],0.0015) %}
+{% set rpt_time = dMnMx['date'].iloc[-1] %}
+
+
+{% set pctChg_hourly = cprice/xprice-1 %}
+{% set alert_volume = udf_word(volS,[' with high trading volume',' with low trading volume',''],[ubound,lbound]) %}
+{% set trend_hourly = udfStr(pctChg_hourly,['up','down','almost flat |nearly unchanged'],0.0015) %}
+
+{% set pctChg_last = dMnMx['actual'].pct_change().values[-1] %}
+
+{# setiment for happy/sad talk comparing to previous close #}
+{% if pctChg_hourly >= 0 %}
+{% set trend_last = udfStr(pctChg_last,['rose','fell','remained steady'],0.0015) %}
+{% else %}
+{% set trend_last = udfStr(pctChg_last,['recovered','deterioated','remained steady'],0.0015) %}
+{% endif %}
+
+
+{# for debuggin unit-test of 4,3,2 points 
+{% set dMnMx = dMnMx.drop([1]) %}
+{% set dMnMx = dMnMx.reset_index() %}
+#}
+
+{{rpt_time}} Report:
+
+{% if dMnMx.shape[0]==4 %}
+{% set trend_pvt_1 = udfStr(dMnMx['pchg_open'][1],['increased','decreased','stayed flat'],0.001) %}
+{% set trend_pvt_2 = udfStr(dMnMx['pchg_open'][2],['increased|rose','decreased|dropped','remained steady'],0.001) %}
+
+{{title}} opened {{trend_open}} from the previous close. Initially, it {{trend_pvt_1}} but then {{trend_pvt_2}} to {{ roundSD(dMnMx['actual'][2],0) }} at {{ dMnMx['date'][2].strftime('%I:%M %p') }}.  
+{% endif %}
+
+{% if dMnMx.shape[0]==3 %}
+{% set trend_pvt_1 = udfStr(dMnMx['pchg_open'][1],['increased','decreased','stayed flat'],0.001) %}
+{{title}} opened {{trend_open}} from the previous close. It {{trend_pvt_1}} initially to {{ roundSD(dMnMx['actual'][1],0) }} at {{ dMnMx['date'][1].strftime('%H:%M') }}.  
+{% endif %}
+
+{% if dMnMx.shape[0]==2 %}
+{{title}} opened {{trend_open}}.
+{% endif %}
+
+Subsequently, it {{trend_last}}. Finally, {{title}} closed the day {{trend_hourly}}
+{%- if abs(pctChg_hourly) > 0.001 %} {{ roundPct(pctChg_hourly,2) }} {% endif -%}
+at {{ roundSD(cprice,0) }}{{alert_volume}}.
+
+{% if len(largest_move)>0 -%} 
+	{% set fqKy, ud = (largest_move).split('_') %}
+	{% set fqWd = {'W':'in one week','M':'in one month','Q':'in one quarter','YTD':'since the beginning of the year'} %}
+	{% set udWd = {'U':'increase','D':'drop'} %}
+The {{udWd[ud]}} is the largest change {{fqWd[fqKy]}}.
+{% endif -%}
+
+{# TBD: [be/worst] day [in one week/in one month/in three months/since the beginning of the year] #}
+{# TBD: + weekly performance talk on friday only, no talk if its month-end #}
+{# TBD: + monthly performance talk on month-end only #}
+{%- endblock -%}

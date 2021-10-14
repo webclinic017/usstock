@@ -1,0 +1,9 @@
+{# MACD enhancement clause #}
+
+{%- if ynCode is True -%}
+	{{prepositionWd}}，{{strategyName}} {{comingTrendWd}} also {{pastDayWd}} appeared，so far {{continueTrendWd}} {{continueStatusClause}}，its direction was not consistent with {{enhanceName}}. Those conflict singals do not suggest any action
+
+{%- else -%}
+	{{prepositionWd}}，{{strategyName}} {{comingTrendWd}} also {{pastDayWd}} appeared，so far {{continueTrendWd}} {{continueStatusClause}} and was consistent with {{enhanceName}}. Both singals enhanceed our suggestion.
+
+{%- endif -%}

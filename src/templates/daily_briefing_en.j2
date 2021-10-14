@@ -1,0 +1,19 @@
+{# daily_single_stock_cn.j2 #}
+{% if _pn_ is undefined %} {% set _pn_={} %} {% endif %}
+{% set t2l = getattr(import_module('ticker2label'),'ticker2label') %}
+{% set ipeers = getattr(import_module('iex_peers'),'iex_peers') %}
+{% set sQL = getattr(import_module('_alan_calc'),'sqlQuery') %}
+{% set mDB = getattr(import_module('_alan_str'),'find_mdb') %}
+{% set findEps = getattr(import_module('find_recent_eps'),'find_recent_eps') %}
+
+{%- include "daily_headline.j2" %}
+{% set leadTicker = list(topLst1[0].items())[0][0] %}
+{% set leadX = t2l(leadTicker,quoteTF=False) %}
+<P>
+{{ hourly_eod('^GSPC',start,mp3YN,lang=lang) }}
+<P>
+{% set ticker=leadTicker %}
+{% include "daily_single_stock_en.j2" %}
+<P>
+{% include "daily_mostactive_en.j2" %}
+{# END CONCLUSION  #}

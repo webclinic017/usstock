@@ -1,0 +1,21 @@
+{# pre-processor
+debugTF=True;mp3YN=True;langstart=int(datetime.datetime.now().strftime('%Y%m%d'))
+#}
+{% set pcall = getattr(import_module('_alan_str'),'popenCall') %}
+{% set t2l = getattr(import_module('ticker2label'),'ticker2label') %}
+{% set ipeers = getattr(import_module('iex_peers'),'iex_peers') %}
+{% set sQL = getattr(import_module('_alan_calc'),'sqlQuery') %}
+{% set mDB = getattr(import_module('_alan_str'),'find_mdb') %}
+{% set findEps = getattr(import_module('find_recent_eps'),'find_recent_eps') %}
+
+{# SETUP MACROs, run_eod  #}
+{% macro run_eod(ticker,start,mp3YN) %}
+TICKER:{{ticker}}
+  {% set hourlyTmp='(cd /apps/fafa/pyx/tst/; hourly_mkt.py  --start={start} --extra_xs="archiveTest=True;mp3YN={mp3YN};mp3TF=False;target_hm=[1600];mp3TF=False;plotTF=False;outTF=True" {ticker} --src=yh --title="{company_cn}" )' %}
+  {% set tkInfo = t2l(ticker) %}
+
+  {% if len(tkInfo)>0 %}
+    {% do tkInfo.update({'start':start,'mp3YN':mp3YN}) %}
+    {{ pcall(hourlyTmp.format(**tkInfo))[0] }}
+  {% endif %}
+{% endmacro %}

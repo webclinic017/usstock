@@ -1,0 +1,20 @@
+{#- based on record_hilo.py available vaiables -#}
+{#- category endDT startDT name label_cn category_cn days series category_seq months -#}
+{#- category_label_seq label pchg source hilo years close fqWd mkt_list freq tags -#}
+{%- set period,myUnit,ccType,hlType = tags.split() -%}
+{%- set np = 0 if abs(close)>999 else 2 -%}
+
+{%- if ccType =='close' -%}
+  {{- label_cn}}為
+  {{- roundSD(close,np,lang=lang,mp3YN=mp3YN) -}}，達到近
+  {{- period -}}
+  {{- '{}'.format('年' if myUnit=='year' else '個月') -}}來
+  {{- '{}'.format('最高' if hlType=='HIGH' else '最低') -}}點。
+{%- elif ccType =='pchg' -%}
+  {{- label_cn}}
+  {{- udfWord(pchg*100,lang=lang) -}}
+  {{- roundPct(pchg,2,lang=lang,mp3YN=mp3YN) -}}
+  來到{{- roundSD(close,np,lang=lang,mp3YN=mp3YN) -}}，近{{- period -}}
+  {{- '{}'.format('年' if myUnit=='year' else '個月') -}}來的
+  {{- '{}'.format('最大漲幅' if hlType=='HIGH' else '最大跌幅') -}} 。
+{%- endif -%}

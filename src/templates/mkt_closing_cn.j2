@@ -1,0 +1,64 @@
+{%- block closing -%}
+{# for debugging purpose {{dMnMx}} #}
+
+{% set lang = 'cn' %}
+{% set pctChg_open = copen/xprice-1 %}
+{% set trend_open = udfStr(pctChg_open,['高','低','盤持平'],0.0015,lang=lang) %}
+{% set rptDateTimeWd = ymd2md(rpt_time,ym='%m%d %H:%M',lang=lang) %}
+
+{% set pctChg_hourly = cprice/xprice-1 %}
+{% set npn = 2 if cprice < 200 else 0 %}
+{% set alert_volume = udfStr(volS,['而且成交量頗高。','不過成交量偏低。',''],[ubound,lbound]) %}
+{% set trend_hourly = udfStr(pctChg_hourly,zs=0.0015,lang=lang) %}
+
+{% set pctChg_last = dMnMx['actual'].pct_change().values[-1] %}
+
+{# setiment for happy/sad talk comparing to previous close #}
+{% if pctChg_hourly >= 0 %}
+{% set trend_last = udfStr(pctChg_last,zs=0.0015,lang=lang) %}
+{% else %}
+{% set trend_last = udfStr(pctChg_last,['回復','持續惡化'],zs=0.0015,lang=lang) %}
+{% endif %}
+
+
+{# for debuggin unit-test of 4,3,2 points 
+{% set dMnMx = dMnMx.drop([1]) %}
+{% set dMnMx = dMnMx.reset_index() %}
+#}
+
+{{rptDateTimeWd}}收盤走勢快報:
+
+{% if dMnMx.shape[0]==4 %}
+{% set trend_pvt_1 = udfStr(dMnMx['pchg_open'][1],zs=0.001,lang=lang) %}
+{% set trend_pvt_2 = udfStr(dMnMx['pchg_open'][2],zs=0.001,lang=lang) %}
+
+{{label}}早盤開{{trend_open}}，起初{{trend_pvt_1}}而後{{trend_pvt_2}}在{{ dMnMx['date'][2].strftime('%I:%M %p') }}來到{{ roundSD(dMnMx['actual'][2],npn) }}。 
+{% endif %}
+
+{% if dMnMx.shape[0]==3 %}
+{% set trend_pvt_1 = udfStr(dMnMx['pchg_open'][1],zs=0.001,lang=lang) %}
+{{label}}早盤開{{trend_open}}，一路{{trend_pvt_1}}在{{ dMnMx['date'][1].strftime('%H:%M') }}來到{{ roundSD(dMnMx['actual'][1],npn) }}。
+{% endif %}
+
+{% if dMnMx.shape[0]==2 %}
+{{label}}早盤開{{trend_open}}.
+{% endif %}
+
+之後為{{trend_last}}趨勢。 最終{{label}}{{trend_hourly}}
+{%- if abs(pctChg_hourly) > 0.001 -%}
+{{ roundPct(pctChg_hourly,2)}}
+{%- endif -%}
+，以{{ roundSD(cprice,npn) }}價格收盤。{{alert_volume}}
+
+{% if len(largest_move)>0 -%} 
+{% set fqKy, ud = (largest_move).split('_') %}
+{% set fqWd = {'W':'一周以來','M':'一個月以來','Q':'三個月以來','YTD':'從年初至今'} %}
+{% set udWd = {'U':'上升','D':'下降'} %}
+其{{udWd[ud]}}幅度為{{fqWd[fqKy]}}的最大變化。
+{%- endif -%}
+
+{# 2018-11-07 15:59:00報告：SP500從前一交易日開盤走高。最初在10:07保持平穩至2777。隨後，它上升了。最後，SP500以2814收盤上漲2.12％，成交量較低。這是一周內最大的變化。#}
+{# TBD: [be/worst] day [in one week/in one month/in three months/since the beginning of the year] #}
+{# TBD: + weekly performance talk on friday only, no talk if its month-end #}
+{# TBD: + monthly performance talk on month-end only #}
+{%- endblock -%}

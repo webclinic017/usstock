@@ -1,0 +1,10 @@
+{# MACD enhancement clause #}
+
+{# check the buy/sell strategy consistency (1 for same direction) of forecast and macd #}
+{%- if ynCode==1 -%}
+{{prepositionWd}}，{{strategyName}} {{comingTrendWd}} also {{pastDayWd}} appeared，so far {{continueTrendWd}} {{continueStatusClause}} and was consistent with {{enhanceName}}. Both singals enhanceed our suggestion.
+
+{%- else -%}
+{{prepositionWd}}，{{strategyName}} {{comingTrendWd}} also {{pastDayWd}} appeared，so far {{continueTrendWd}} {{continueStatusClause}}，its direction was not consistent with {{enhanceName}}. Those conflict singals do not suggest any action
+
+{%- endif -%}

@@ -1,0 +1,8 @@
+{% block TITLE_HEADER %} {% endblock %}
+{% block HEADLINE  %} {% endblock %}
+{% block MARKET_INDEX  %} {% endblock %}
+{% block SINGLE_STOCK  %} {% endblock %}
+{% block MOSTACTIVE  %} {% endblock %}
+{% block MACRO_ALERT  %} {% endblock %}
+{% block END_CONCLUSION  %} {% endblock %}
+{% block FOOTER  %} {% endblock %}

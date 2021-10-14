@@ -1,0 +1,39 @@
+{#- PAST EPS CLAUSE ------------------------------------------------#}
+在上⼀個季度的EPS為{{roundSD(eps,2,lang=lang,mp3YN=mp3YN) -}}
+比前一季{{udfStr(eps_pctChange,lang=lang)}} {{roundPct(eps_pctChange,2,lang=lang,mp3YN=mp3YN)}}，
+為{{udfStr(eps_pctChange,lang=lang)}}趨勢。
+
+{% set tg_next2week = getattr(import_module('_alan_date'),'tg_next2week') %}
+{% set ymd2dt = getattr(import_module('_alan_date'),'ymd2dt') %}
+
+{#- EXPECTED EPS CLAUSE --------------------------------------------#}
+{% if len(nextEPS)>0 %}
+{% set nxChk = tg_next2week(ymd2dt(nextEPS['pbdate'])) %}
+{%- if nxChk -%}
+本季EPS預定在
+  {%- if nxChk['todayTF'] -%}
+  今天
+  {%- else -%}
+  {{- "{}".format("本周" if nxChk['currWeekTF'] else "下周") -}} {{- nxChk['tgWeekday']+1 -}}
+  {%- endif -%}
+發佈，目前市場EPS估值為{{nextEPS['EPS Estimate']}}。
+在上一季的EPS基本上實際{{- udfStr(lastEPS['Surprise(%)'],lang=lang)}}於預期值。
+{% endif %}
+{% endif %}
+
+{#- PAST revenue CLAUSE --------------------------------------------#}
+{%- if revenue -%}
+上季總營收為{{roundUSD(revenue,0,lang=lang,mp3YN=mp3YN) -}}
+較前一季{{- udfStr(revenue_pctChange,lang=lang)}}{{roundPct(revenue_pctChange,2,lang=lang,mp3YN=mp3YN) -}}，
+前景看{{udfStr(revenue_pctChange,['漲','跌'],lang=lang)}}。
+{% endif %}
+
+{#- PAST profitMargin CLAUSE --------------------------------------------#}
+{%- if profitMargin -%}
+相對於毛利率空間而言，上一季為{{roundPct(profitMargin,2,lang=lang,mp3YN=mp3YN) -}}
+較前一季{{- udfStr(profitMargin_pctChange,lang=lang)}}{{roundPct(profitMargin_pctChange,2,lang=lang,mp3YN=mp3YN) -}}，
+前景看{{udfStr(profitMargin_pctChange,['漲','跌'],lang=lang)}}。
+{% endif %}
+
+
+

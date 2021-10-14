@@ -1,0 +1,13 @@
+{% if start %}
+{% set findEps = getattr(import_module('find_recent_eps'),'find_recent_eps') %}
+{% set pcall= getattr(import_module('_alan_str'),'popenCall') %}
+{% set mey = getattr(import_module('macro_event_yh'),'run_macro_event_yh') %}
+{% set epsHist = mey(ticker=ticker,xtype='earnings',dbname='ara') %}
+{% set jobj=findEps(ticker,start) %}
+{% set nextEPS = epsHist.query('pbdate>{}'.format(start)).sort_values('pbdate').iloc[0] %}
+{% set lastEPS = epsHist.query('pbdate<{}'.format(start)).sort_values('pbdate').iloc[-1] %}
+
+{% set xstr = '{%- include "'+"daily_eps_{}.j2".format(lang)+'" -%}' %}
+{{ jj_fmt(xstr,jobj,nextEPS=nextEPS, lastEPS=lastEPS , dirname=dirname) }}
+<image src="static/ted/HOME_peersPE.svg" style="width:400px;height:300px" >
+{% endif %}

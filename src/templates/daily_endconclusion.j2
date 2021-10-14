@@ -1,0 +1,5 @@
+{% set mktTrend=trend_forecast() %}
+{% set trendS = udfStr(mktTrend['pos_pb'],['仍有上漲空間','上漲空間大大幅減少','上漲空間不大'],[0.54,0.46],lang=lang) %}
+以目前趨勢來看，美股{{trendS}}。
+<P id=FOOTER >
+以上報告是經由智能伏羲自動選出重要指標及個股，並不代表本公司的任何持有部位

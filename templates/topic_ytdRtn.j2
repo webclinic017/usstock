@@ -1,4 +1,4 @@
-<FORM id="filterForm" action='/portfolio?search=list&topic=ytdRtn' method='post' onsumbit="return function(data){}" >
+<FORM id="filterForm" action='/portfolio?search=list&topic={{topic or "sp500"|safe}}&start={{start or 20210101|safe}}' method='post' onsumbit="return function(data){}" >
 By: <SELECT name=subtopic style="width:120px;padding:2px;">
   <OPTION SELECTED value=sector > Sector
   </OPTION>
@@ -10,7 +10,7 @@ By: <SELECT name=subtopic style="width:120px;padding:2px;">
 <input hidden type="submit" name="submit" value="Run">
 </FORM>
 <script>
-  $("[id=headline]").html("Pandemic current and lowest 3/23 Performance since SP500 2/19 Peak");
+  $("[id=headline]").html("{{topic|safe}} since {{start|safe}}");
   $("[id=headline]").css("font-size","12pt");
-  $("select[name='subtopic']")[0].value="{{subtopic|safe}}";
+  $("select[name='subtopic']")[0].value="{{subtopic or 'sector'|safe}}";
 </script>

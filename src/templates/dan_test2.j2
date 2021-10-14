@@ -1,0 +1,31 @@
+{{  999  }} -hi from test2-
+
+
+
+*本季度的每股收益EPS已經在*
+{{- "{}".format("今天todayTF" if todayTF else "本周currWeekTF" if currWeekTF else "上周else") -}}*
+{%- if not todayTF -%}
+{{weekday}}
+{%- endif -%}的
+
+{{ticker}}  reported its quarterly earnings of 
+
+{{- pbdatetime.hour}}*點發佈為*{{roundUSD(eps,2,lang=lang,mp3YN=mp3YN) -}}{{" "}} per share.
+與上一季相比，- bla2-{{ udfStr(eps_pctChange,lang=lang) -}} 
+{%- if eps_isPct -%}
+ *inside if2*
+{{roundPct(eps_pctChange,2,lang=lang,mp3YN=mp3YN)}}'
+{%- else -%}
+  *inside if2b*
+{{roundUSD(eps_pctChange,2,lang=lang,mp3YN=mp3YN)}}，
+{%- endif -%}
+
+
+為{{udfStr(eps_pctChange,lang=lang)}}趨勢。
+
+{%- if revenueStr and hasattr(revenueStr,'__len__') %}
+ *inside if3*
+
+總營收為{{ num_en2cn(revenueStr) -}}
+較上一季{{- udfStr(revenue_pctChange,lang=lang)}}{{roundPct(revenue_pctChange,2,lang=lang,mp3YN=mp3YN) -}}， 前景看{{udfStr(revenue_pctChange,lang=lang)}}。
+{% endif %}	

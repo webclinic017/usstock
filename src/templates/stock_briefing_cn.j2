@@ -1,0 +1,16 @@
+{% set hourlyTmp='python hourly_mkt.py  --start={start} --extra_xs="archiveTest=True;mp3TF=False;target_hm=[1600]" {ticker} --title={label}' %}
+{{ sysCall(hourlyTmp.format(**dict(start=start,ticker=ticker,label=label))) }}
+{#
+{% set xcmd='python3 iex_peers.py {} --extra_xs="displayPeers=1;label={r!}" --lang=cn' %}
+{{ sysCall(xcmd.format(ticker,label)) }}
+#}
+
+成交熱門股為GE，AMD，BAC。通用電器，代號GE，早盤開低，一路下降在09:56來到9.17，
+之後為回復趨勢。 最終通用電氣重跌下挫-2.85%，以9.22價格收盤。
+目前值得觀察國際金融走勢如下：
+美國月報失業率在04月 05日公佈，3.80%，與前一個月相同。
+主要貨幣美元指數較前一日僅有稍稍波動，收97.01。
+美國2年期公債在前一天上漲 5基本點為2.35。[目前利率仍處於反轉狀態10年與三個月利差為-3基本點]。
+金價目前為1,297.10元，較前一天攀升8.20 。油價為69.08元，升1.15 。
+以目前趨勢來看，美股【仍有上漲空間|開始進入盤整期|仍在進行盤整】。
+以上報告是經由智能伏羲自動選出重要指標及個股，並不代表本公司的任何持有部位

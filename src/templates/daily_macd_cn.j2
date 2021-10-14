@@ -1,0 +1,11 @@
+{# MACD enhancement clause #}
+
+{%- if ynCode is True -%}
+
+{{prepositionWd}}，{{strategyName}}的{{comingTrendWd}}訊號也在{{pastDayWd}}出現，目前{{continueTrendWd}}{{continueStatusClause}}，可惜與{{enhanceName}}的方向並不一致。 此時趨勢呈現模糊不清的訊息，
+不建議採取任何進出行動。
+
+{%- else -%}
+{{prepositionWd}}，{{strategyName}}的{{comingTrendWd}}訊號也在{{pastDayWd}}出現，目前{{continueTrendWd}}{{continueStatusClause}}，與{{enhanceName}}的方向一致，進而發出更加明確的{{comingLookoutWd}}訊息。 在之前同一期間也有過{{countWd}}次{{strategyName}}，{{trrAdv}}獲利為{{trrPct}}{{trrAddClause}}。
+
+{%- endif -%}

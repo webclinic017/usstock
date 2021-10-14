@@ -1,0 +1,20 @@
+{%- if indexLst is defined -%}
+{%- set topQuote = indexLst[indexOrder.index(topIndex)] -%}
+{%- set djiQuote = indexLst[indexOrder.index("^DJI")] -%}
+{%- set close1,chgPct1,chg1 = list(map(float,"{close} {changePercent} {change}".format(**topQuote).split() )) -%}
+{%- set close2,chgPct2,chg2 = list(map(float,"{close} {changePercent} {change}".format(**djiQuote).split() )) -%}
+{%- endif -%}
+
+{%- if allUpDn > 0 and chgPct1 > 0.01 -%}
+  標普500，道瓊， 納斯達克美股三大指數同時上漲，
+{%- elif allUpDn < 0 and chgPct1 < -0.01 -%}
+  標普500，道瓊， 納斯達克美股三大指數同聲下跌，
+{%- endif -%}
+
+標普500{{udfWord(chgPct1,lang=lang)}}
+{%- if abs(chgPct1)>0.5 -%}
+  {{roundPct(chgPct1,0,pct=1,lang=lang,mp3YN=mp3YN)}}，
+{%- else -%}
+  {{roundSD(chg1,0,lang=lang,mp3YN=mp3YN)}}點，
+{%- endif -%}
+來到{{roundSD(close1,0,lang=lang,mp3YN=mp3YN)}}。

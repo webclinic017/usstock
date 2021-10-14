@@ -1,0 +1,18 @@
+{%- set np=2 if value<1000 else 0 -%}
+{{label_cn}}已經在
+{{- "{}".format("今天" if todayTF else "本周" if currWeekTF else "上周") -}}
+{%- if not todayTF -%}
+{{tgWeekday+1}}
+{%- endif -%}
+發佈為{{roundSD(value,np,lang=lang,mp3YN=mp3YN)}}， 
+
+{# add additional growth rate comment if annual growth rate exists, the 'pctChange' will be refered to 'annualRate' #}
+{%- if annualRate is defined -%}
+其年增長率為{{roundPct(annualRate,2,pct=1,lang=lang,mp3YN=mp3YN)}}，
+{%- endif -%}
+
+{%- if pctChange -%}
+ 與上一{{'季'if freq=='Q' else '月'}}相比，{{udfStr(pctChange,lang=lang) -}}
+ {{- roundPct(pctChange,2,lang=lang,mp3YN=mp3YN) -}}
+， 為{{udfStr(pctChange,lang=lang)}}趨勢。
+{%- endif -%}

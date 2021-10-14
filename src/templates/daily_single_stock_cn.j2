@@ -1,0 +1,26 @@
+{% if _pn_ is undefined %} {% set _pn_={} %} {% endif %}
+{% set np = import_module('numpy') %}
+{% set pd = import_module('pandas') %}
+{% set cdt = next_date() if cdt is undefined else pd.Timestamp(cdt) %}
+{% set start = dt2ymd(cdt) if start is undefined else start %}
+{% if ticker and start %}
+{% set t2l = getattr(import_module('ticker2label'),'ticker2label') %}
+{% set ipeers = getattr(import_module('iex_peers'),'iex_peers') %}
+{% set peerPerform = getattr(import_module('iex_peers'),'peers_performance') %}
+{% set leadX = t2l(ticker, quoteTF=True) %}
+{% set peersX = ipeers(ticker,peersLstTF=True) %}
+{% set end_hm=end_hm or int(cdt.strftime("%H00")) %}
+{% set end_hm=np.clip(end_hm,900,1600) %}
+{%- if peersX -%}
+  {% set peersList = ', '.join(peersX[0]['peers']) -%}
+  {% do leadX.update({'peersList':peersList,'peers':peersX[0]['peers']}) %}
+{% endif %}
+{# -----------Conten start  --------------------------------- #}
+{%- include "stock_performance.j2" -%} {# FOR STOCK #}
+{%- include "daily_peers_cn.j2" -%} {#- need input ticker -#}
+{%- include "peers_performance_cn.j2" -%}
+{%- include "earnings_performance_cn.j2" -%}
+{%- include "etf_performance.j2" -%} {# FOR SECTOR #}
+
+{%- endif -%} {# -------- ticker endif ------ #}
+

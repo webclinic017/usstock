@@ -1,0 +1,26 @@
+{% if _pn_ is undefined %} {% set _pn_={} %} {% endif %}
+{% set dirname = dirname or 'templates' %}
+{% set outdir = outdir or 'US/mp3_hourly' %}
+{% set pd = import_module('pandas') %}
+{% set plotTemp = getattr(import_module('plot_templates'),'plot_templates') %}
+{% set cdt = next_date() if cdt is undefined else pd.Timestamp(cdt) %}
+{% set start = dt2ymd(cdt) if start is undefined else start %}
+{% set end_hm = int(cdt.strftime("%H00")) if end_hm is undefined else end_hm %}
+{% set mp3YN = False if mp3YN is undefined else mp3YN %}
+{% set instrument = 'etf' %}
+{% if leadX is defined and 'etfname' in leadX  %}
+  {% set tkX=leadX['etfname']  %}
+{% else %}
+  {% set tkX='^GSPC'  %}
+{% endif %}
+{% set hourlyObj={} %}
+{% set templateName = instrument + '_performance' %}
+{{ hourly_eod(tkX,start,end_hm=end_hm,mp3YN=mp3YN,hourlyObj=hourlyObj,saveDB=False) }}
+
+{# plotting #}
+{% set df = hourlyObj['f'] %}
+{%- set chartname = "{}_{}_{}.{}".format(templateName,tkX,dt2ymd(cdt,"%s"),"svg") %}
+{%- set chartpath,ax1,fig= plotTemp(df[['close']],title=tkX,funcname='plot_ts',chartname=chartname,chartdir=outdir) -%}
+{% do hourlyObj.pop('f') %}
+{% do hourlyObj.update(chartpath=chartpath) %}
+{% do _pn_.update({templateName:hourlyObj}) %}

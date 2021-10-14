@@ -1,0 +1,48 @@
+{# for debugging purpose
+{{title}}
+{{xprice}}
+{{f.head(2)}}
+{{f.describe()}}
+{{dfdr}}
+{{dMnMx}}
+{{ volS }}
+{{ 'volume:{} in [{},{}]'.format(volS,ubound,lbound) }}
+{{dMnMx}}
+#}
+
+{% set cprice = dMnMx['actual'].iloc[-1] %}
+{% set pctChg_open = copen/xprice-1 %}
+{% set trend_open = udfStr(pctChg_open,['higher','lower','flat'],0.0035) %}
+{% set rpt_time = dMnMx['date'].iloc[-1] %}
+
+
+{% set pctChg_hourly = dMnMx['pchg_open'].iloc[-1] %}
+{% set alert_volume = udf_word(volS,[' with high trading volume',' with low trading volume',''],[ubound,lbound]) %}
+{% set trend_hourly = udfStr(pctChg_hourly,['up in the positive territory','down in the negative territory','flat|unchanged'],0.0035) %}
+
+{# for debuggin unit-test of 4,3,2 points 
+{% set dMnMx = dMnMx.drop([1]) %}
+{% set dMnMx = dMnMx.reset_index() %}
+#}
+
+{{rpt_time}} Report:
+
+{% if dMnMx.shape[0]==4 %}
+{% set trend_pvt_1 = udfStr(dMnMx['pchg_open'][1],['increased','decreased','stayed flat'],0.001) %}
+{% set trend_pvt_2 = udfStr(dMnMx['pchg_open'][2],['increased|rose','decreased|dropped','remained steady'],0.001) %}
+
+{{title}} opened {{trend_open}}, it {{trend_pvt_1}} initially, then it {{trend_pvt_2}} and ended 
+{{trend_hourly}} at this hour{{alert_volume}}.
+{% endif %}
+
+
+{% if dMnMx.shape[0]==3 %}
+{% set trend_pvt_1 = udfStr(dMnMx['pchg_open'][1],['increased','decreased','stayed flat'],0.001) %}
+{{title}} opened {{trend_open}}, it {{trend_pvt_1}} initially, then it ended
+{{trend_hourly}} at this hour{{alert_volume}}.
+{% endif %}
+
+{% if dMnMx.shape[0]==2 %}
+{{title}} opened {{trend_open}}, it ended {{trend_hourly}} at this hour{{alert_volume}}.
+{% endif %}
+

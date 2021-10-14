@@ -1,0 +1,20 @@
+{#-----------------------------------------------
+ Get earnings report given YYYYMMDD 'start' date 
+ inputs: start, ticker
+ require modules: find_recent_eps,_alan_str, macro_event_yh
+ require sub-templates: "daily_eps_cn.j2" 
+-----------------------------------------------#}
+{% if start %}
+{% set findEps = getattr(import_module('find_recent_eps'),'find_recent_eps') %}
+{% set jj2= getattr(import_module('_alan_str'),'jj_fmt') %}
+{% set mey = getattr(import_module('macro_event_yh'),'run_macro_event_yh') %}
+{% set epsHist = mey(ticker=ticker,xtype='earnings',dbname='ara') %}
+{% if len(epsHist)>0 %}
+{% set jobj=findEps(ticker) %}
+{% set nextEPS = epsHist.query('pbdate>{}'.format(start)).sort_values('pbdate').iloc[0] %}
+{% set lastEPS = epsHist.query('pbdate<{}'.format(start)).sort_values('pbdate').iloc[-1] %}
+EPS HIST: {{epsHist.to_html()}}
+{% set xstr = '{% include "daily_eps_cn.j2"  %}' %}
+{{ jj2(xstr,jobj,nextEPS=nextEPS, lang=lang,mp3YN=mp3YN,lastEPS=lastEPS , dirname=dirname) }}
+{% endif %}
+{% endif %}

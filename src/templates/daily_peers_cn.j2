@@ -1,0 +1,42 @@
+{%- if _pn_ is undefined -%} {%- set _pn_={} -%} {%- endif -%}
+{%- if tmplLst is undefined -%} {%- set tmplLst=[] -%} {%- endif -%}
+{%- set templateName = 'daily_peers' -%}
+{%- if ranking is undefined -%}
+  {%- set plotTemp = getattr(import_module('plot_templates'),'plot_templates') -%}
+  {%- set t2l = getattr(import_module('ticker2label'),'ticker2label') -%}
+  {%- set ipeers = getattr(import_module('iex_peers'),'iex_peers') -%}
+  {%- set peerPerform = getattr(import_module('iex_peers'),'peers_performance') -%}
+  {%- set leadX = t2l(ticker, quoteTF=True) -%}
+  {%- set peersX = ipeers(ticker,peersLstTF=False) -%}
+  {%- do leadX.update(peersX[2]) -%}
+  {%- set t2sr = getattr(import_module('iex_peers'),'ticker2sectorRanking') -%}
+  {%- set ranking = t2sr(ticker=ticker,sector=leadX['sector']).shape[0] -%}
+  {%- set xstr ='{%- include "daily_peers_cn.j2" -%}' -%}
+  {%- set mp3ret = jj_fmt(xstr,leadX,ranking=ranking,debugTF=False,dirname=dirname,mp3YN=True) -%}
+  {%- set ret = jj_fmt(xstr,leadX,ranking=ranking,debugTF=False,dirname=dirname) -%}
+  {{ ret }}
+  {%- set chartname = "{}_{}_{}.{}".format(templateName,ticker,dt2ymd(cdt,"%s"),"svg") -%}
+  {%- set sub = getattr(import_module('re'),'sub') -%}
+  {%- set chartname = sub('[\^= ]','',chartname) -%}
+  {%- set chartpath,ax,fig = plotTemp(peersX[0][['peers','marketcap']],funcname='plot_daily_peers',chartname=chartname,ticker=ticker) -%}
+  {%- do _pn_.update(daily_peers=dict(mp3comment=mp3ret,comment=ret,chartpath=chartpath)) -%}
+  {%- if tmplLst is defined -%} {%- do tmplLst.append(templateName) -%} {%- endif -%}
+  {%- do _pn_.update(tmplLst=tmplLst) -%}
+
+{%- else -%}
+  
+  {%- set peersEtc = ', '.join(unique_set(peers_cn[:3])+['等公司']) if mp3YN else ','.join(unique_set(peers[:6])) -%}
+  {%- set industry_cn = industry_cn + ('' if industry_cn[-1]=='業' else '產業') -%}
+  {{company_cn}}屬於{{sector_cn}} ( {{etfname}} ) 中的{{industry_cn}}。與其相關個股為{{ peersEtc }}。
+  
+  {%- if ranking -%}
+    為{{sector_cn}}裡的
+    {%- if ranking <=3 -%}
+      龍頭老大。
+    {%- else -%}
+      {%- set mc = marketCap/10**9 -%}
+      {{- "{}".format('大' if mc > 10 else '中' if mc > 2 else '小') -}}型股
+    {%- endif -%}
+  {%- endif -%}
+
+{%- endif -%}

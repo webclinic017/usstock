@@ -1,0 +1,6 @@
+{%- if latest2weekTF and Reported -%}
+  {%- include "daily_eps_latest_cn.j2" -%}
+{%- elif eps -%}
+  {%- include "daily_eps_past_cn.j2" -%}
+{%- endif -%}
+

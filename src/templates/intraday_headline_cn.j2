@@ -1,0 +1,121 @@
+{#- Recursive self-call if input 'indexLst' is not defined -#}
+{%- if _pn_ is undefined -%} {%- set _pn_={} -%} {%- endif -%}
+{% if tmplLst is undefined %} {% set tmplLst=[] %} {% endif %}
+{%- set pd = import_module('pandas') -%}
+{%- set templateName = 'intraday_headline' -%}
+{%- set dirname = 'templates' if dirname is undefined else dirname -%}
+{%- set outdir = 'US/mp3_hourly' if outdir is undefined else outdir -%}
+{%- set mp3YN = False if mp3YN is undefined else mp3YN -%}
+{%- set lang = 'cn' if lang is undefined else lang -%}
+{%- set start = dt2ymd(next_date()) if start is undefined else start -%}
+{%- set cdt = next_date() if cdt is undefined else pd.Timestamp(cdt) -%}
+{%- set start = dt2ymd(cdt) if start is undefined else start -%}
+{%- set hhmm = int(cdt.strftime("%H00")) if hhmm is undefined else hhmm -%}
+{%- set end_hm = hhmm if end_hm is undefined else end_hm -%}
+{%- if int(end_hm)<930 -%}
+  {%- set end_hm, category =  900, "SoD" -%}
+{%- elif int(end_hm)<1600 -%}
+  {%- set end_hm, category =  end_hm, "ItD" -%}
+{%- else -%}
+  {%- set end_hm, category = 1600, "EoD" -%}
+{%- endif -%}
+{%- set rpt_time = pd.Timestamp("{} {:04d}".format(start,end_hm)) if rpt_time is undefined else rpt_time -%}
+{%- if rptDateTimeWd is undefined -%}
+{%- set rptDateTimeWd = ymd2md(rpt_time,ym='%m%d -%H:%M',lang=lang,mp3YN=mp3YN) -%}
+{%- endif -%}
+{%- set plotTemp = getattr(import_module('plot_templates'),'plot_templates') -%}
+{%- if breakTF -%}
+  {%- do _pn_.update(leadTicker='AAPL') -%}
+  {%- do _pn_.update(daily_headline=dict(mp3comment='',comment='')) -%}
+{%- elif indexLst is not defined -%}
+  {%- set hlc = getattr(import_module('headline_calc'),'headline_calc') -%}
+  {%- set dd = hlc() -%}
+  {%- do dd.update(rptDateTimeWd=rptDateTimeWd,category=category) -%}
+  {%- set ht1=jj_fmt('{%- include "headtitle1_cn.j2" -%}',dirname=dirname,lang=lang,end_hm=end_hm,_pn_=_pn_,**dd) -%}
+  {%- set ret=jj_fmt('{%- include "intraday_headline_cn.j2" -%}',dirname=dirname,lang=lang,end_hm=end_hm,_pn_=_pn_,**dd) -%}
+  {{- ret -}}
+  {%- do dd.update(mp3YN=True) -%}
+  {%- set mp3ret=jj_fmt('{%- include "intraday_headline_cn.j2" -%}',dirname=dirname,lang=lang,end_hm=end_hm,_pn_=_pn_,**dd) -%}
+
+  {#- plotting -#}
+  {% set tkX = '^GSPC' %}
+  {%- set chartname = "{}_{}_{}.{}".format(templateName,tkX,dt2ymd(cdt,"%s"),"svg") %}
+  {%- set sub = getattr(import_module('re'),'sub') -%}
+  {%- set chartname = sub('[\^= ]','',chartname) -%}
+  {#- set chartpath,ax1,fig= plotTemp(tkX,title=tkX,funcname='plot_ts',chartname=chartname,chartdir=outdir) -#}
+  {%- set chartpath= "{}/{}".format(outdir,chartname) -%}
+  {%- set sieWd = '前' if end_hm<930 else '後' if end_hm >1555 else '中' -%}
+  {%- set title= "美股盤{}走勢 - {}".format(sieWd,rptDateTimeWd) -%}
+  {%- set chartpath,ax1,fig= plotTemp([],title=title,funcname='plot_intraday_headline',chartpath=chartpath,chartname=chartname) -%}
+
+  {%- do dd.update(mp3YN=False) -%}
+  {%- if tmplLst is defined -%} {%- do tmplLst.append(templateName) -%} {%- endif -%}
+  {%- do _pn_.update(intraday_headline=dict(mp3comment=mp3ret,comment=ret,chartpath=chartpath,ht1=ht1)) -%}
+  {%- do _pn_.update(tmplLst=tmplLst) -%}
+
+{%- else -%}
+{%- set t2l = getattr(import_module('ticker2label'),'ticker2label') -%}
+{%- set topQuote = indexLst[indexOrder.index(topIndex)] -%}
+{%- set djiQuote = indexLst[indexOrder.index("^DJI")] -%}
+{%- set close1,chgPct1,chg1 = list(map(float,"{close} {changePercent} {change}".format(**topQuote).split() )) -%}
+{%- set close2,chgPct2,chg2 = list(map(float,"{close} {changePercent} {change}".format(**djiQuote).split() )) -%}
+{%- set leadQuote = t2l(topLst[0]['ticker']) -%}
+{%- do topLst[0].update(leadQuote) -%}
+{%- if mp3YN -%}
+  {%- set leadStockStr = '{company_cn}'.format(**topLst[0]) -%}
+{%- else -%}
+  {%- set leadStockStr = '{company_cn} ({ticker}: {changePercent:.2f}%)'.format(**topLst[0]) -%}
+{%- endif -%}
+{%- set leadTicker = '{ticker}'.format(**topLst[0]) -%}
+
+{# START WRITING COMMENTS #}
+{#- set rptDateTimeWd = ymd2md(topQuote['pbdt'],ym='%m%d -%H:%M',lang=lang) or '' -#}
+{%- set sieWd = '前' if end_hm<930 else '後' if end_hm >1555 else '中' -%}
+{{rptDateTimeWd}} 盤{{sieWd}}市場快報:
+{%- if category=="SoD" -%} 前一個交易日{%- endif  -%}
+{%- if allUpDn > 0 and chg2  > 100 -%}
+  標普500，道瓊， 納斯達克美股三大指數同時上漲。 
+{%- elif allUpDn < 0 and chg2 < -100 -%}
+  標普500，道瓊， 納斯達克美股三大指數同聲下跌。 
+{%- endif -%}
+
+標普500{{udfWord(chgPct1,lang=lang)}}
+{%- if abs(chgPct1)>0.5 -%}
+  {{roundPct(chgPct1,0,pct=1,lang=lang,mp3YN=mp3YN)}}， 
+{%- else -%}
+  {{roundSD(chg1,0,lang=lang,mp3YN=mp3YN)}}點，
+{%- endif -%}
+來到{{roundSD(close1,0,lang=lang,mp3YN=mp3YN)}}。
+
+{%- if hiloRecord -%}
+{%- set xt={'YrToDate':'今年來最大','MoToDate':'本月初以來最大','LastMoToDate':'從上月以來最大'}  -%}
+{%- set hiloTitle = (xt[hiloRecord['name']]) + ('升幅' if hiloRecord['hilo']=='HIGH' else '降幅') -%}
+{{hiloTitle}}。
+{%- endif -%}
+{%- if topUpDn=="UP" -%}
+由 {{ leadStockStr }} {{rdWord('領軍|帶頭|領頭')}}。
+{%- elif topUpDn=="FLAT" -%}
+        {%- if chgPct1>=0 -%}
+                最大上升股為{{ leadStockStr }}。
+        {%- else -%}
+                最深跌幅股為{{ leadStockStr }}。
+        {%- endif -%}
+{%- else -%}
+受{{ leadStockStr }} {{rdWord('影響|拖累')}}。
+{%- endif -%}
+
+道瓊指數{{ifelse(chg1*chg2<0,"卻","亦")}}{{udfWord(chgPct2,lang=lang)}}{{roundSD(chg2,0)}}點，來到{{roundSD(close2,0,lang=lang,mp3YN=mp3YN)}}。
+{%- if bttmLst -%}
+  {%- set bttmQuote = t2l(bttmLst[0]['ticker']) -%}
+  {%- do bttmLst[0].update(bttmQuote) -%}
+  {%- if mp3YN -%}
+    {%- set bttmStockStr = '{company_cn}'.format(**bttmLst[0]) -%}
+  {%- else -%}
+    {%- set bttmStockStr = '{company_cn} ({ticker}: {changePercent:.2f}%)'.format(**bttmLst[0]) -%}
+  {%- endif -%}
+值得注意的是，{{bttmStockStr}} {{udfWord(bttmLst[0]['changePercent'],lang=lang)}}。
+
+{%- endif -%}
+{%- do _pn_.update(topLst=topLst,leadTicker=leadTicker) -%}
+
+{%- endif -%} 

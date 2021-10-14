@@ -1,0 +1,29 @@
+{% if _pn_ is undefined %} {% set _pn_={} %} {% endif %}
+{% set templateName = 'daily_macro' %}
+{% if tmplLst is undefined %} {% set tmplLst=[] %} {% endif %}
+{% if mp3YN is undefined %} {% set mp3YN=False %} {% endif %}
+{% set lang = lang or 'cn' %}
+{% set dirname = dirname or 'templates' %}
+{% set outdir = outdir or 'US/mp3_hourly' %}
+{% set pd = import_module('pandas') %}
+{% set plotTemp = getattr(import_module('plot_templates'),'plot_templates') %}
+{% set cdt = next_date() if cdt is undefined else pd.Timestamp(cdt) %}
+{% set latestMacro = check_latest_macro(nwk=1) %}
+{% if len(latestMacro)>0 %}
+  {% set ht2=jj_fmt('{% include "headtitle2_cn.j2" %}',lang=lang,dirname=dirname,outdir=outdir,mp3YN=mp3YN,_pn_=_pn_,**latestMacro) %}
+  {% set ret=jj_fmt('{% include "daily_macro_latest_cn.j2" %}',lang=lang,dirname=dirname,outdir=outdir,mp3YN=mp3YN,_pn_=_pn_,**latestMacro) %}
+  {{ ret }}
+  {% set mp3ret=jj_fmt('{% include "daily_macro_latest_cn.j2" %}',lang=lang,dirname=dirname,outdir=outdir,mp3YN=True,_pn_=_pn_,**latestMacro) %}  
+  {# plotting #}
+  {% set df = latestMacro['f'] %}
+  {% set tkX = latestMacro['series'] %}
+  {%- set chartname = "{}_{}_{}.{}".format(templateName,tkX,dt2ymd(cdt,"%s"),"svg") %}
+  {%- set sub = getattr(import_module('re'),'sub') -%}
+  {%- set chartname = sub('[\^= ]','',chartname) -%}
+  {%- set label_cn = latestMacro['label_cn'] -%}
+  {%- set chartpath,ax1,fig= plotTemp(tkX,title=label_cn,funcname='plot_daily_macro',chartname=chartname,chartdir=outdir,src='fred') -%}
+  {% do latestMacro.pop('f') %}
+  {% do _pn_.update(daily_macro=dict(mp3comment=mp3ret,comment=ret,chartpath=chartpath,ht2=ht2)) %}
+  {%- if tmplLst is defined -%} {%- do tmplLst.append(templateName) -%} {%- endif -%}
+  {%- do _pn_.update(tmplLst=tmplLst) -%}
+{% endif %}

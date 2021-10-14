@@ -1,0 +1,88 @@
+{# RUN daily headline for [EoD,SoD]  #}
+{%- if _pn_ is undefined -%} {%- set _pn_={} -%} {%- endif -%}
+{%- set templateName = 'daily_headline' -%}
+{%- set pd = import_module('pandas') -%}
+{%- set t2l = getattr(import_module('ticker2label'),'ticker2label') -%}
+{%- if tmplLst is undefined -%} {%- set tmplLst=[] -%} {%- endif -%}
+{%- set dirname = 'templates' if dirname is undefined else dirname -%}
+{%- set outdir = 'US/mp3_hourly' if outdir is undefined else outdir -%}
+{%- set mp3YN = False if mp3YN is undefined else mp3YN -%}
+{%- set lang = 'cn' if lang is undefined else lang -%}
+{%- set pbdt = next_date() -%}
+{%- set cdt = next_date() if cdt is undefined else pd.Timestamp(cdt) -%}
+{%- set start = dt2ymd(cdt) if start is undefined else start -%}
+{%- set hhmm = int(cdt.strftime("%H00")) if hhmm is undefined else hhmm -%}
+{%- set end_hm = hhmm if end_hm is undefined else end_hm -%}
+{%- if int(end_hm) <1600 -%}
+  {%- set end_hm, category =  900, "SoD" -%}
+{%- else -%}
+  {%- set end_hm, category = 1600, "EoD" -%}
+{%- endif -%}
+{%- set rpt_time = pd.Timestamp("{} {:04d}".format(start,end_hm)) if rpt_time is undefined else rpt_time -%}
+{%- set rptDateTimeWd = ymd2md(rpt_time,ym='%m%d -%H:%M',lang=lang,mp3YN=mp3YN) -%}
+{%- set plotTemp = getattr(import_module('plot_templates'),'plot_templates') -%}
+{#- START TEMPLATES -#}
+{%- if breakTF -%}
+  {%- do _pn_.update(leadTicker='AAPL') -%}
+  {%- do _pn_.update(daily_headline=dict(mp3comment='',comment='')) -%}
+{%- elif chgLevel2 is undefined -%}
+  {%- set eval = getattr(import_module('ast'),'literal_eval') -%}
+  {%- set hhs = getattr(import_module('headline_sts'),'headline_hist') -%}
+  {%- set fhr = getattr(import_module('headline_calc'),'find_hiloRecord') -%}
+  {%- set df = hhs(ndays=2,saveDB=False,end=start,topDict=True) -%}
+  {%- if len(df)>0 -%}
+ 	 {%- set dd = df.iloc[0].to_dict() -%}
+  {%- else -%}
+ 	 {%- set dd = dict(breakTF=True) -%}
+  {%- endif -%}
+  {%- if rptDateTimeWd is defined -%}
+ 	 {%- do dd.update(rptDateTimeWd=rptDateTimeWd) -%}
+  {%- endif -%}
+  {%- if category is defined -%}
+ 	 {%- do dd.update(category=category) -%}
+  {%- endif -%}
+  {%- set hiloRecord = fhr() -%}
+  {%- set xstr = '{%- include "daily_headline.j2" -%}' -%}
+  {%- set mp3YN=True -%}
+  {%- set mp3ret = jj_fmt(xstr,lang=lang,mp3YN=mp3YN,saveDB=False,_pn_=_pn_,hiloRecord=hiloRecord,dirname=dirname,**dd)  -%}
+  {%- set mp3YN=False -%}
+  {%- set ret = jj_fmt(xstr,lang=lang,mp3YN=mp3YN,saveDB=False,_pn_=_pn_,hiloRecord=hiloRecord,dirname=dirname,**dd)  -%}
+  {%- set ht1 = jj_fmt('{%- include "headtitle1_cn.j2" -%}',lang=lang,mp3YN=mp3YN,saveDB=False,_pn_=_pn_,hiloRecord=hiloRecord,dirname=dirname,**dd)  -%}
+{{- ret -}}
+
+  {#- plotting -#}
+  {%- set df=dLst2df(dd['topLst1']) -%}
+  {%- set chartname = "{}_{}.{}".format(templateName,dt2ymd(cdt,"%s"),"svg") -%}
+  {%- set sub = getattr(import_module('re'),'sub') -%}
+  {%- set chartname = sub('[\^= ]','',chartname) -%}
+  {#- set chartpath,ax1,fig= plotTemp(df,title='Market Lead Stocks',funcname='plot_barh2chart',chartname=chartname,chartdir=outdir,pctTF=True) -#}
+  {%- set chartpath= "{}/{}".format(outdir,chartname) -%}
+  {%- set title= "{} - {}".format("美股大盤走勢",rptDateTimeWd) -%}
+  {%- set chartpath,ax1,fig= plotTemp([],title=title,funcname='plot_intraday_headline',chartpath=chartpath,chartname=chartname) -%}
+
+  {%- if tmplLst is defined -%} {%- do tmplLst.append(templateName) -%} {%- endif -%}
+  {%- do _pn_.update(daily_headline=dict(mp3comment=mp3ret,comment=ret,chartpath=chartpath,ht1=ht1)) -%}
+  {%- do _pn_.update(tmplLst=tmplLst) -%}
+{%- else -%}
+
+{%- set category=category or "EoD" -%}
+{%- if category=="SoD" -%}
+  {{rptDateTimeWd}} 盤前快報：前一個交易日
+{%- else -%}
+  {{rptDateTimeWd}} 盤後快報：
+{%- endif -%}
+  {%- if topLst1 is defined -%}
+     {%- set leadStock=dict(zip(['ticker','changePercent'],list(topLst1[0].items())[0][:2])) -%}
+     {%- set leadTicker=leadStock['ticker'] -%}
+     {%- do leadStock.update(t2l(leadTicker)) -%}
+     {%- if mp3YN -%}
+       {%- set leadStockStr = '{company_cn} ({ticker})'.format(**leadStock) -%}
+     {%- else -%}
+       {%- set leadStockStr = '{company_cn} ({ticker}: {changePercent:.2f}%)'.format(**leadStock) -%}
+     {%- endif -%}
+     {%- do _pn_.update(leadTicker=leadTicker) -%}
+  {%- endif -%}
+  {%- set xcase = 2 if chgLevel2>200 or chgLevel2<-200 else 1 -%}
+  {%- set headline_file='daily_headline_{}_{}.j2'.format(xcase,lang) -%}
+  {%- include headline_file -%}
+{%- endif -%}

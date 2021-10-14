@@ -1,0 +1,8 @@
+{%- block headline -%}
+{% set lang = 'cn' %}
+  {% set pctChg_hourly = dMnMx['pchg_open'].iloc[-1] %}
+  {% set trend_hourly = udfWord(pctChg_hourly*100,lang=lang) %}
+
+  {{label}}{{trend_hourly}}{{ roundPct(pctChg_hourly,2,lang=lang,mp3YN=mp3YN)}}，趨勢
+  {{- udfStr(dfdr['sign'].iloc[-1],udf=['看漲','看跌','不明'],lang=lang) }}
+{%- endblock -%}

@@ -1,0 +1,13 @@
+{%- if len(category)>0 -%}
+接下來為有關{{udfStr(changePercent,['最大上升','最深跌幅'])}}個股{{company_cn}}的分析簡報：
+{%- else -%}
+{{company_cn}}
+{%- endif -%}
+{%- set npn=2 if close<200 else 0 -%}
+已經{{udfWord(changePercent,lang=lang)}}
+{%- if abs(changePercent)>=0.1 -%}
+{{- roundPct(changePercent/100,2,lang=lang,mp3YN=mp3YN) -}}
+{%- else -%}
+{{- roundSD(changePercent,2,lang=lang,mp3YN=mp3YN) -}}
+{%- endif -%}
+來到{{roundSD(close,npn,lang=lang,mp3YN=mp3YN)}}。

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>U.S. Stock Analysis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="1800">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link type="image/x-icon" rel="icon" href="/favicon.ico">
+    <link href="https://getbootstrap.com/docs/3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type='text/css' href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css">
+
+    <!-- Dropdowns enhancement -->
+    <link href="./css/dropdowns-enhancement.css" rel="stylesheet">
+
+    <!-- Documentation extras -->
+    <link href="https://getbootstrap.com/docs/3.3/assets/css/docs.min.css" rel="stylesheet">
+
+    <!-- Generic style  -->
+    <link href="./css/fonts.css" rel="stylesheet">
+    <link href="./css/styles.css" rel="stylesheet">
+
+    <!-- Load BootStrap  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://getbootstrap.com/docs/3.3/dist/js/bootstrap.min.js"></script>
+    <script src="./js/dropdowns-enhancement.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://getbootstrap.com/docs/3.3/assets/js/docs.min.js"></script>
+
+    <!-- Load Datatable  -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.jqueryui.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.jqueryui.min.js"></script>
+    <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/scroller/2.0.1/css/scroller.dataTables.min.css" rel="stylesheet">
+
+    <!-- for jquery autocomplete  -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <!-- Load React -->
+    <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <style>
+      div.container { width:96%;margin:auto; }
+      table.dataframe { float:left;table-layout:auto; }
+      table.dataframe tbody tr:nth-child(even):hover td{ background-color: #cbe600; }
+      table.dataframe tbody tr:nth-child(odd):hover  td{ background-color: #cbe600; }
+      table.dataframe tbody tr:nth-child(odd) td{
+       background-color: lightgray;
+      }
+      table.dataframe tbody tr:nth-child(even) td{
+        background-color: white;
+      }
+      table.dataframe tbody tr td { white-space: nowrap; }
+
+
+      .newsItem {
+	display: block; height: 47pt; 
+        overflow: hidden; text-overflow: ellipsis
+      }
+    </style>
+  </head>
+  <body>
+    {% include "bb_header.xhtm" %}
+    <div id="navbar">
+      {% block nav %}
+        {% include "navbar.j2" %}
+      {% endblock %}
+    </div>
+    <div class="container" >
+      {% block row_1 %}{% endblock %}
+      {% block content %}{% endblock %}
+      {% block section %}{% endblock %}
+    </div>
+    <div id="footer">
+      {% block footer %}
+      {% include "bb_footer.xhtm" %}
+      {% endblock %}
+  </div>
+  </body>
+<script>
+var tkLst =["A","AAL","AAP","AAPL","ABBV","ABC","ABMD","ABT","ACN","ADBE","ADI","ADM","ADP","ADS","ADSK","AEE","AEP","AES","AFL","AGN","AIG","AIV","AIZ","AJG","AKAM","ALB","ALGN","ALK","ALL","ALLE","ALXN","AMAT","AMCR","AMD","AME","AMGN","AMP","AMT","AMZN","ANET","ANSS","ANTM","AON","AOS","APA","APD","APH","APTV","ARE","ATO","ATVI","AVB","AVGO","AVY","AWK","AXP","AZO","BA","BAC","BAX","BBY","BDX","BEN","BF-B","BIIB","BK","BKNG","BKR","BLK","BLL","BMY","BR","BRK-B","BSX","BWA","BXP","C","CAG","CAH","CARR","CAT","CB","CBOE","CBRE","CCI","CCL","CDNS","CDW","CE","CERN","CF","CFG","CHD","CHRW","CHTR","CI","CINF","CL","CLX","CMA","CMCSA","CME","CMG","CMI","CMS","CNC","CNP","COF","COG","COO","COP","COST","COTY","CPB","CPRI","CPRT","CRM","CSCO","CSX","CTAS","CTL","CTSH","CTVA","CTXS","CVS","CVX","CXO","D","DAL","DD","DE","DFS","DG","DGX","DHI","DHR","DIS","DISCA","DISCK","DISH","DLR","DLTR","DOV","DOW","DRE","DRI","DTE","DUK","DVA","DVN","DXC","EA","EBAY","ECL","ED","EFX","EIX","EL","EMN","EMR","EOG","EQIX","EQR","ES","ESS","ETFC","ETN","ETR","EVRG","EW","EXC","EXPD","EXPE","EXR","F","FANG","FAST","FB","FBHS","FCX","FDX","FE","FFIV","FIS","FISV","FITB","FLIR","FLS","FLT","FMC","FOX","FOXA","FRC","FRT","FTI","FTNT","FTV","GD","GE","GILD","GIS","GL","GLW","GM","GOOG","GOOGL","GPC","GPN","GPS","GRMN","GS","GWW","HAL","HAS","HBAN","HBI","HCA","HD","HES","HFC","HIG","HII","HLT","HOG","HOLX","HON","HP","HPE","HPQ","HRB","HRL","HSIC","HST","HSY","HUM","HWM","IBM","ICE","IDXX","IEX","IFF","ILMN","INCY","INFO","INTC","INTU","IP","IPG","IPGP","IQV","IR","IRM","ISRG","IT","ITW","IVZ","J","JBHT","JCI","JKHY","JNJ","JNPR","JPM","JWN","K","KEY","KEYS","KHC","KIM","KLAC","KMB","KMI","KMX","KO","KR","KSS","KSU","L","LB","LDOS","LEG","LEN","LH","LHX","LIN","LKQ","LLY","LMT","LNC","LNT","LOW","LRCX","LUV","LVS","LW","LYB","LYV","MA","MAA","MAR","MAS","MCD","MCHP","MCK","MCO","MDLZ","MDT","MET","MGM","MHK","MKC","MKTX","MLM","MMC","MMM","MNST","MO","MOS","MPC","MRK","MRO","MS","MSCI","MSFT","MSI","MTB","MTD","MU","MXIM","MYL","NBL","NCLH","NDAQ","NEE","NEM","NFLX","NI","NKE","NLOK","NLSN","NOC","NOV","NOW","NRG","NSC","NTAP","NTRS","NUE","NVDA","NVR","NWL","NWS","NWSA","O","ODFL","OKE","OMC","ORCL","ORLY","OTIS","OXY","PAYC","PAYX","PBCT","PCAR","PEAK","PEG","PEP","PFE","PFG","PG","PGR","PH","PHM","PKG","PKI","PLD","PM","PNC","PNR","PNW","PPG","PPL","PRGO","PRU","PSA","PSX","PVH","PWR","PXD","PYPL","QCOM","QRVO","RCL","RE","REG","REGN","RF","RHI","RJF","RL","RMD","ROK","ROL","ROP","ROST","RSG","RTX","SBAC","SBUX","SCHW","SEE","SHW","SIVB","SJM","SLB","SLG","SNA","SNPS","SO","SPG","SPGI","SPY","SRE","STE","STT","STX","STZ","SWK","SWKS","SYF","SYK","SYY","T","TAP","TDG","TEL","TFC","TFX","TGT","TIF","TJX","TMO","TMUS","TPR","TROW","TRV","TSCO","TSN","TT","TTWO","TWTR","TXN","TXT","UA","UAA","UAL","UDR","UHS","ULTA","UNH","UNM","UNP","UPS","URI","USB","V","VAR","VFC","VIAC","VLO","VMC","VNO","VRSK","VRSN","VRTX","VTR","VZ","WAB","WAT","WBA","WDC","WEC","WELL","WFC","WHR","WLTW","WM","WMB","WMT","WRB","WRK","WU","WY","WYNN","XEL","XLB","XLE","XLF","XLI","XLK","XLNX","XLP","XLRE","XLU","XLV","XLY","XOM","XRAY","XRX","XTL","XYL","YUM","ZBH","ZBRA","ZION","ZTS"];
+$(document).ready(function() {
+        //$("[id$=tbl]").DataTable( {
+        var nt = $(".dataframe").find('th').length,_targets=[];
+        for(i=1;i<=nt;i++) _targets.push(i);
+        $(".dataframe").DataTable( {
+            renderer: { "header": "bootstrap" }, // To fix sorting icon duplicate
+            paging:         true,
+            info:           true,
+            pagingType:     "full_numbers",
+            pageLength:     10,
+            autoWidth:      true,
+            deferRender:    true,
+            scrollX:        true,
+            scrollY:        680,
+            scrollCollapse: true,
+            scroller:       true,
+            fixedColumns:   true,
+            fixedHeader:    true,
+            columnDefs: [{targets: [1,2,3,4,5,6,7], orderable: false}],
+            //columnDefs: [ { className: "dt-right", targets:[1,2,3,4,5,6,7] } ],
+            // header: true,
+            // footer: true,
+            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
+        } );
+    } );
+    $( "#tickerList" ).autocomplete({
+      source: tkLst
+    });
+    $( "#enBtn" ).click(function(e){
+      $( "[class=cnNews]" ).css({"display":"none"});
+      $( "[class=enNews]" ).css({"display":"table-cell"});
+    });
+    $( "#cnBtn" ).click(function(e){
+      $( "[class=enNews]" ).css({"display":"none"});
+      $( "[class=cnNews]" ).css({"display":"table-cell"});
+    });
+    $( "#bothBtn" ).click(function(e){
+      $( "[class=cnNews]" ).css({"display":"table-cell"});
+      $( "[class=enNews]" ).css({"display":"table-cell"});
+    });
+
+    var hideN={"height":"47pt","display":"block",
+        "overflow": "hidden", "text-overflow": "ellipsis"};
+    var showN={"height":"100%","display":"table-cell",
+        "overflow": "visible", "text-overflow": "ellipsis"};
+
+    $('[class=newsItem]').click(function() {
+      if($(this).css('overflow')=='hidden')
+        $(this).css(showN);
+      else
+        $(this).css(hideN);
+    });
+    $('[id=e2cBtn]').click(function(e) {
+      idStr = $(this).attr("name");
+      prnt = $(this).parent();
+      urlName="/api?search=comment&topic=news&subtopic=translate&_id="+idStr;
+      $.ajax({url:urlName,type:"GET",dataType:"json",
+        success:function(d) {
+          console.log(d); 
+          prnt.html(d[0].title_cn+"<BR>"+d[0].summary_cn);
+        }
+      });
+     });
+    $('[id=e2cNBtn]').click(function(e) {
+      idStr = $(this).attr("name");
+      prnt = $(this).parent();
+      urlName="/api?search=comment&topic=news&subtopic=translate&tablenews=rssNews&_id="+idStr;
+      $.ajax({url:urlName,type:"GET",dataType:"json",
+        success:function(d) {
+          console.log(d); 
+          prnt.html(d[0].summary_cn);
+        }
+      });
+    });
+    $('select[name="subtopic"],select[name="fund"]').change(function() {
+       $('input[name=submit]').click();
+    });
+</script>
+</html>

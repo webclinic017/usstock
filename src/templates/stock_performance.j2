@@ -1,0 +1,40 @@
+{% if _pn_ is undefined %} {% set _pn_={} %} {% endif %}
+{% if tmplLst is undefined %} {% set tmplLst=[] %} {% endif %}
+{% set dirname = dirname or 'templates' %}
+{% set outdir = outdir or 'US/mp3_hourly' %}
+{% set pd = import_module('pandas') %}
+{% set plotTemp = getattr(import_module('plot_templates'),'plot_templates') %}
+{% set cdt = next_date() if cdt is undefined else pd.Timestamp(cdt) %}
+{% set start = dt2ymd(cdt) if start is undefined else start %}
+{% set end_hm = int(cdt.strftime("%H00")) if end_hm is undefined else end_hm %}
+{% set mp3YN = False if mp3YN is undefined else mp3YN %}
+{% set instrument = 'stock' %}
+{% set tkX=ticker or 'AAPL' %}
+{% set hourlyObj={} %}
+{% set templateName = 'stock_performance' %}
+{% set lang = 'cn' if lang is undefined else lang %}
+{% set t2l = getattr(import_module('ticker2label'),'ticker2label') %}
+{% set getHst = getattr(import_module('yh_hist_batch'),'yh_hist') %}
+{% set hourlyObj = leadX or t2l(tkX) %}
+{% set category=category or ''  %}
+{%- set ret = jj_fmt("quote_performance.j2",lang=lang,mp3YN=mp3YN,dirname=dirname,ctrlSTRUCT='include',category=category,**hourlyObj)  -%}
+{%- set mp3ret = jj_fmt("quote_performance.j2",lang=lang,mp3YN=True,dirname=dirname,ctrlSTRUCT='include',category=category,**hourlyObj)  -%}
+{{ret}}
+{% do hourlyObj.update(f=getHst(tkX)) %}
+{% do hourlyObj.update(mp3comment=mp3ret,comment=ret) %}
+{# hourly_eod(tkX,start,end_hm=end_hm,mp3YN=mp3YN,hourlyObj=hourlyObj,saveDB=False) #}
+
+{# plotting #}
+{% set df = hourlyObj['f'] %}
+{% set title_cn=hourlyObj['company_cn'] %}
+{% set xprice = hourlyObj['xclose'] %}
+{% set cpchg = hourlyObj['changePercent'] %}
+{%- set chartname = "{}_{}_{}.{}".format(templateName,tkX,dt2ymd(cdt,"%s"),"svg") %}
+  {%- set sub = getattr(import_module('re'),'sub') -%}
+  {%- set chartname = sub('[\^= ]','',chartname) -%}
+{%- set chartpath,ax1,fig= plotTemp(df[['close','volume']],title=title_cn,funcname='plot_stock_performance',chartname=chartname,chartdir=outdir, xprice=xprice, cpchg=cpchg) -%}
+{% do hourlyObj.pop('f') %}
+{% do hourlyObj.update(chartpath=chartpath) %}
+{% do _pn_.update({templateName:hourlyObj}) %}
+{%- if tmplLst is defined -%} {%- do tmplLst.append(templateName) -%} {%- endif -%}
+{%- do _pn_.update(tmplLst=tmplLst) -%}

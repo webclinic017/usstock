@@ -1,0 +1,3 @@
+{% set tmpCase=["收盤價", "元"] if category == "stock"  else ["為",""] %}
+{{label}}在前一{{unitStr}}{{pastTrendWd}} {{xwChgWd}}，目前{{tmpCase[0]}} {{price}}{{tmpCase[1]}}
+這個{{xwChgWd}} {{movingWd}}{{cmpWd}} 之前的歷史波動率{{sigmaWd}}。依據{{label}}波動狀況，預估下一{{unitStr}}有七成可能{{rangeWd}}。{{posPbWd}}

@@ -1,0 +1,57 @@
+{#- marketTrend ticker is default to ^GSPC -#}
+{%- if _pn_ is undefined -%} {% set _pn_={} %} {%- endif -%}
+{% set templateName = 'daily_conclusion' %}
+{% if tmplLst is undefined %} {% set tmplLst=[] %} {% endif %}
+{% set cdt = next_date() if cdt is undefined else cdt %}
+{% set dirname = 'templates' if dirname is undefined else dirname %}
+{% set outdir = 'US/mp3_hourly' if outdir is undefined else outdir %}
+{% set mp3YN = False if mp3YN is undefined else mp3YN %}
+{% set lang = 'cn' if lang is undefined else lang %}
+{% set plotTemp = getattr(import_module('plot_templates'),'plot_templates') %}
+{% set ttlHeadFunc = getattr(import_module('record_hilo'),'get_titlehead') %}
+{%- if pos_pb is undefined -%}
+  {%- set ttlHead=ttlHeadFunc() -%}
+  {%- if len(ttlHead)>0 -%}
+	{%- set dhl= ttlHead['f'] -%}
+  	{%- set ht3 = ttlHead['ht3']  -%}
+  {%- else -%}
+  	{%- set ht3,dhl = '',{}  -%}
+  {%- endif -%}
+  {% set chartpath,ret = '','' %}
+  {%- set mktTrend=trend_forecast() -%}
+
+  {%- set ret = jj_fmt('daily_conclusion.j2',dirname=dirname,outdir=outdir,lang=lang,mp3YN=mp3YN,dhl=dhl,ctrlSTRUCT='include',**mktTrend)  -%}
+  {{- ret -}}
+  {#- plotting -#}
+  {% set df = mktTrend['f'] %}
+  {% set ticker = mktTrend['f'] %}
+  {% set tkX = mktTrend['ticker'] %}
+  {%- set chartname = "{}_{}_{}.{}".format(templateName,tkX,dt2ymd(cdt,"%s"),"svg") %}
+  {%- set sub = getattr(import_module('re'),'sub') -%}
+  {%- set chartname = sub('[\^= ]','',chartname) -%}
+  {%- if len(dhl)>0 -%}
+    {%- set chartpath,ax1,fig= plotTemp(dhl,funcname='plot_daily_conclusion',chartname=chartname,chartdir=outdir) -%}
+  {%- else -%}
+    {%- set chartpath,ax1,fig= plotTemp(df[['close']],title=tkX,funcname='plot_ts',chartname=chartname,chartdir=outdir) -%}
+  {%- endif -%}
+  {% do mktTrend.pop('f') %}
+
+  {% do _pn_.update(daily_conclusion=dict(mp3comment=ret,comment=ret,chartpath=chartpath,ht3=ht3)) %}
+  {%- do _pn_[templateName].update(mktIndex=mktTrend['ticker']) %}
+  {%- if tmplLst is defined -%} {%- do tmplLst.append(templateName) -%} {%- endif -%}
+  {%- do _pn_.update(tmplLst=tmplLst) -%}
+{%- else -%}
+  {%- set trendS = udfStr(pos_pb,['仍有上漲空間','上漲空間大大幅減少','上漲空間不大'],[0.54,0.46],lang=lang) -%}
+  {%- if len(dhl)>0 -%}
+  總結目前顯著財經指標： 
+  {%- endif -%}
+  {%- for j in range(len(dhl))[:3] %}
+    {%- if mp3YN -%}
+      {{- dhl.loc[dhl.index[j],'mp3comment'] }}
+    {%- else -%}
+      {{- dhl.loc[dhl.index[j],'comment'] }}
+    {%- endif -%}
+  {%- endfor %}
+  以當前趨勢來看，美股{{trendS}}。
+以上報告是經由智能伏羲自動選出重要指標及個股，並不代表本公司的任何持有部位
+{%- endif -%}

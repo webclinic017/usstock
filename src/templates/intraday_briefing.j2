@@ -1,0 +1,30 @@
+{# SETUP MACROs, run intra day rather than EOD
+Also see, daily_briefing_cn.j2 for EOD run #}
+{%- if _pn_ is undefined -%} {%- set _pn_={} -%} {%- endif -%}
+{%- do _pn_.update(templateName='intraday_briefing') -%}
+{%- set tmplLst=[] -%}
+{%- set category = category or 'EoD' -%}
+{%- set pd = import_module('pandas') -%}
+{%- set pbdt = next_date() -%}
+{%- set cdt = next_date() if cdt is undefined else pd.Timestamp(cdt) -%}
+{%- set start = dt2ymd(cdt) if start is undefined else start -%}
+{%- set hhmm = int(cdt.strftime("%H00")) if hhmm is undefined else hhmm -%}
+{%- set end_hm = hhmm if end_hm is undefined else end_hm -%}
+{%- set end_hm = clip(1000,int(end_hm),1600) -%}
+{%- set dirname = 'templates/' if dirname is undefined else dirname -%}
+{%- set lang = 'cn' if lang is undefined else lang -%}
+{%- set mp3YN = False if mp3YN is undefined else mp3YN -%}
+{%- set t2l = getattr(import_module('ticker2label'),'ticker2label') -%}
+{%- set rpt_time = pd.Timestamp("{} {:04d}".format(start,end_hm)) if rpt_time is undefined else rpt_time -%}
+{%- set rptDateTimeWd = ymd2md(rpt_time,ym='%m%d -%H:%M',lang=lang,mp3YN=mp3YN) -%}
+{%- do _pn_.update(pbdt=pbdt,lang=lang,rpt_time=rpt_time,rptDateTimeWd=rptDateTimeWd,category=category) -%}
+{%- set category = 'intraday' -%}
+
+{%- include "intraday_headline_cn.j2" -%}
+{%- include "mktidx_performance.j2" -%}
+{%- set ticker = _pn_['leadTicker'] -%}
+{%- include "daily_mostactive.j2" -%}
+{%- include "daily_macro_cn.j2" -%}
+{%- include "daily_single_stock_cn.j2" -%}
+{%- include "daily_conclusion.j2" -%}
+{%- do _pn_.update(tmplLst=tmplLst) -%}

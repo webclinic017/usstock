@@ -1,0 +1,27 @@
+本季度的每股收益EPS已經在
+{{- "{}".format("今天" if todayTF else "本周" if currWeekTF else "上周") -}}
+{%- if not todayTF -%}
+{{weekday}}
+{%- endif -%}
+發佈為{{roundUSD(float(Reported),2,lang=lang,mp3YN=mp3YN) -}}
+{%- if eps_chgFreq =='Q' -%}
+。與上一季相比，
+{%- else -%}
+。相較於去年同比，
+{%- endif -%}
+{{udfStr(eps_pctChange,lang=lang) -}} 
+{%- if eps_isPct -%}
+{{roundPct(eps_pctChange,2,lang=lang,mp3YN=mp3YN)}}。
+{%- else -%}
+{{roundUSD(eps_pctChange,2,lang=lang,mp3YN=mp3YN)}}，
+{%- endif -%}
+
+{#
+為{{udfStr(eps_pctChange,lang=lang)}}趨勢。
+
+{%- if revenueStr and hasattr(revenueStr,'__len__') %}
+總營收為{{ num_en2cn(revenueStr) -}}
+較上一季{{- udfStr(revenue_pctChange,lang=lang)}}{{roundPct(revenue_pctChange,2,lang=lang,mp3YN=mp3YN) -}}， 前景看{{udfStr(revenue_pctChange,lang=lang)}}。
+{% endif %}
+#}
+

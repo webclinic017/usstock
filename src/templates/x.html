@@ -1,0 +1,39 @@
+<HTML>
+<HEAD>
+<TITLE>
+ALAN Stock Report
+</TITLE>
+<meta http-equiv="Content-Type" content="text/html;charset="UTF-8" >
+<script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+</HEAD>
+<BODY>
+<DIV id=tmplrpt >
+{{tmplrpt|safe}}
+</DIV>
+<SCRIPT>
+function getUrlParameter(sParam) {
+	var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+		sURLVariables = sPageURL.split('&'), sParameterName, i;
+	for (i = 0; i < sURLVariables.length; i++) {
+		sParameterName = sURLVariables[i].split('=');
+		if (sParameterName[0] === sParam) {
+			return sParameterName[1] === undefined ? true : sParameterName[1];
+		}
+	}
+}
+
+window.onload = function() {
+	// load to tmplrpt 
+	var idName=getUrlParameter("id");
+	var tmplrpt=getUrlParameter("tmplrpt");
+	var title=getUrlParameter("title");
+	if(title!=null) $("title")[0].text = title;
+	if(window.opener!=null && idName!=null) {
+		eleName="#"+idName;
+		var xval=$(eleName,window.opener.document).val();
+		$(eleName).html(xval);
+	}
+};
+</SCRIPT>
+</BODY>
+</HTML>

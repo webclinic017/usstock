@@ -1,0 +1,36 @@
+{% if _pn_ is undefined %} {% set _pn_={} %} {% endif %}
+{% set templateName = 'daily_mostactive' %}
+{% if tmplLst is undefined %} {% set tmplLst=[] %} {% endif %}
+{% set mp3YN = mp3YN or False %}
+{% set lang = lang or 'cn' %}
+{% set dirname = dirname or 'templates' %}
+{% set outdir = outdir or 'US/mp3_hourly' %}
+{% set end_hm = int(next_date().strftime("%H00")) if end_hm is undefined else end_hm %}
+{% set plotTemp = getattr(import_module('plot_templates'),'plot_templates') %}
+{% set t2l = getattr(import_module('ticker2label'),'ticker2label') %}
+
+{% set mostactive = stock_screener('most_values') %}
+{%- if mostactive is defined and len(mostactive)>0 -%}
+  {% set hourlyObj={} %}
+  {% set companyStr = ", ".join(mostactive['company_cn']) %}
+  {% set tkStr = ", ".join(mostactive['tkStr']) %}
+  {% set companyStr_mp3 = ", ".join(mostactive['company_cn'][:3]) %}
+  {% set tkMost = mostactive[abs(mostactive['changePercent'])==mostactive['changePercent'].abs().max()].to_dict(orient='records')[0] %}
+  {% do tkMost.update(tkStr=tkStr,companyStr=companyStr,companyStr_mp3=companyStr_mp3) %}
+  {%- set ret = jj_fmt("mostactive_performance.j2",lang=lang,mp3YN=mp3YN,dirname=dirname,ctrlSTRUCT='include',**tkMost)  -%}
+  {%- set mp3ret = jj_fmt("mostactive_performance.j2",lang=lang,mp3YN=True,dirname=dirname,ctrlSTRUCT='include',**tkMost)  -%}
+  {% set tkX = mostactive['ticker'].iloc[0] %}
+  {%- if ticker is undefined or ticker!=tkX -%}
+    {{ ret }}
+    {% do hourlyObj.update(comment=ret,mp3comment=mp3ret) %}
+    {# plotting #}
+    {%- set chartname = "{}_{}_{}.{}".format(templateName,tkX,dt2ymd(cdt,"%s"),"svg") %}
+  {%- set sub = getattr(import_module('re'),'sub') -%}
+  {%- set chartname = sub('[\^= ]','',chartname) -%}
+    {%- set chartpath,ax1,fig= plotTemp(mostactive[['ticker','changePercent']],title=tkX,funcname='plot_daily_mostactive',chartname=chartname,chartdir=outdir) -%}
+    {% do hourlyObj.update(chartpath=chartpath) %}
+    {% do _pn_.update(daily_mostactive=hourlyObj) %}
+    {%- if tmplLst is defined -%} {%- do tmplLst.append(templateName) -%} {%- endif -%}
+    {%- do _pn_.update(tmplLst=tmplLst) -%}
+  {%- endif -%}
+{%- endif -%}

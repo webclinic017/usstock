@@ -1,0 +1,16 @@
+<FORM id="filterForm" action='/portfolio?search=list&topic={{topic|safe}}' method='post' onsumbit="return function(data){}" >
+By: <SELECT name=subtopic style="width:120px;padding:2px;">
+  <OPTION SELECTED value=sector > Sector
+  </OPTION>
+  <OPTION  value="industry"  >Industry
+  </OPTION>
+  <OPTION  value="ticker"  >Ticker
+  </OPTION>
+</SELECT>
+<input hidden type="submit" name="submit" value="Run">
+</FORM>
+<script>
+  $("[id=headline]").html("{{topic|safe}} since {{start|safe}}");
+  $("[id=headline]").css("font-size","12pt");
+  $("select[name='subtopic']")[0].value="{{subtopic|safe}}";
+</script>

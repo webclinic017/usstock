@@ -4,18 +4,19 @@
     {% include "majorplayer.j2" %}
   {% elif topic=='filter' %}
     {% include "filter.j2" %}
-  {% elif topic=='ytdRtn' %}
+  {% elif topic in ['ipo','sp500','cdr'] %}
     {% include "topic_ytdRtn.j2" %}
   {% endif %}
+  {{cmt | safe}}
 {% endblock %}
 
 {% block content %}
   {{content | safe}}
 
-{% if fund is defined %}
-  <<title>{{fund|safe}}</title>
-  <script>
-    $("select[name='fund']")[0].value="{{fund}}";
-  </script>
-{% endif %}
+  {% if fund is defined %}
+    <<title>{{fund|safe}}</title>
+    <script>
+      $("select[name='fund']")[0].value="{{fund}}";
+    </script>
+  {% endif %}
 {% endblock %}

@@ -1,0 +1,46 @@
+{# BELOW SAMPLE: 在今天的漲跌表現中處於相對於市盈率... #}
+{# modules needed ticker2label:ticker2label, iex_peers:peers_performance #}
+{% if _pn_ is undefined %} {% set _pn_={} %} {% endif %}
+{% if tmplLst is undefined %} {% set tmplLst=[] %} {% endif %}
+{%- set templateName = 'peers_performance' -%}
+{%- set ticker=ticker or 'AAPL'  -%}
+{%- if ranking is undefined -%}
+ {% set ranking = [] %}
+ {% set plotTemp = getattr(import_module('plot_templates'),'plot_templates') %}
+ {% set t2l = getattr(import_module('ticker2label'),'ticker2label') %}
+ {% set leadX = leadX or t2l(ticker, quoteTF=True) %}
+ {% set peerPerform = getattr(import_module('iex_peers'),'peers_performance') %}
+ {% set ipeers = getattr(import_module('iex_peers'),'iex_peers') %}
+ {% set peersX = peersX or ipeers(ticker,peersLstTF=True) %}
+ {%- if len(peersX)>0   -%}
+  {%- set peersList = ', '.join(peersX[0]['peers']) -%}
+  {% do leadX.update({'peersList':peersList,'peers':peersX[0]['peers']}) %}
+  {% set pchgLst = peerPerform(peersX[0]['peers']+[ticker]) %}
+  {%- set chartname = "{}_{}_{}.{}".format(templateName,ticker,dt2ymd(cdt,"%s"),"svg") %}
+  {%- set sub = getattr(import_module('re'),'sub') -%}
+  {%- set chartname = sub('[\^= ]','',chartname) -%}
+  {% set chartpath,ax,fig = plotTemp(pchgLst,funcname='plot_peers_performance',chartname=chartname,ticker=ticker) %}
+  {% set ranking = list(pchgLst.index[pchgLst['ticker'] == ticker]) -%}
+  {%- set ret = jj_fmt('peers_performance_cn.j2',dirname=dirname,ctrlSTRUCT='include',peersX=peersX,leadX=leadX,pchgLst=pchgLst,ranking=ranking,ticker=ticker,_pn_=_pn_) -%}
+  {{- ret -}}
+  {# mp3 and regular comments are identical #}
+  {% do _pn_.update(peers_performance=dict(mp3comment=ret,comment=ret,chartpath=chartpath)) %}
+  {%- if tmplLst is defined -%} {%- do tmplLst.append(templateName) -%} {%- endif -%}
+  {%- do _pn_.update(tmplLst=tmplLst) -%}
+ {%- else -%}
+   {% do _pn_.update(peersPerformance={}) %}
+ {%- endif -%}
+{%- else -%}
+  {%- if len(ranking)>0 -%}
+     {%- set rp = ranking[0]/1.0/len(pchgLst) -%}
+     與其相關個股比較，
+     {{- leadX['company_cn']}}在今天的漲跌表現中處於
+     {{- udfWord(rp,thd=[0.99,0.5,0.01],wordLst=['最差', '中下|較差', '中上|較好', '最優'],lang=lang) -}}。
+     {%- set dx = pchgLst.sort_values('peRatio',ascending=False).reset_index(drop=True) -%}
+     {%- set ranking = dx.index[dx['ticker'] == ticker][0] -%}
+     {%- set rp = ranking/1.0/len(pchgLst) -%}
+     相對於市盈率而言，{{leadX['company_cn']}}屬於
+     {{- udfWord(rp,thd=[0.99,0.5,0.01],wordLst=['最差', '中下|較差', '中上|較好', '最優'],lang=lang) }}。
+  {%- endif -%}
+
+{%- endif -%}

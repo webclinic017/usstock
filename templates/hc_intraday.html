@@ -1,0 +1,164 @@
+<style> .highcharts-credits {display:none} </style>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<div id="container" style="height: 300px; min-width: 310px"></div>
+<p id="comment" ></p>
+
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+
+<script>
+function getUrlVars() {
+    var vars = {};
+    var urlapp = window.location.href.replace('#','');
+    var parts = urlapp.replace(/[?&]+([^=&]+)=([^&]*)/gi,
+        function(m,key,value) { vars[key] = value; });
+    return vars;
+}
+
+function getDT(dt,tm) {
+    //var y=parseInt(dt/10000), d=dt%100,m=(dt-y*10000-dt)/100;
+    var y=dt.slice(0,4), m=dt.slice(4,6), d=dt.slice(6,8);
+    return(new Date(`${y}-${m}-${d} ${tm} UTC`).getTime())
+}
+
+function create_stockChart(id='container',ticker='',data=null,vol=null) {
+    Highcharts.stockChart(id, {
+	time: {useUTC: false},
+	plotOptions: {
+		candlestick: {
+			lineColor: 'black',
+			color: 'white',
+			upColor: 'lightgreen',
+			upLineColor: 'green',
+			shadow: true
+		}
+        },
+        title: {
+            text: ticker +' stock price by minute'
+        },
+
+        rangeSelector: {
+            buttons: [{
+                type: 'hour',
+                count: 1,
+                text: '1H'
+            }, {
+                type: 'hour',
+                count: 2,
+                text: '2H'
+            }, {
+                type: 'hour',
+                count: 4,
+                text: '4H'
+            }, {
+                type: 'all',
+                count: 1,
+                text: 'All'
+            }],
+            selected: 3,
+            inputEnabled: false
+        },
+
+        yAxis: [{
+            labels: {
+                align: 'right',
+                x: -3
+            },
+            title: {
+                text: 'OHLC'
+            },
+            height: '100%',
+            lineWidth: 2,
+            resize: {
+                enabled: true
+            }
+/*
+        }, {
+            labels: {
+                align: 'right',
+                x: -3
+            },
+            title: {
+                text: 'Volume'
+            },
+            top: '65%',
+            height: '35%',
+            offset:    0,
+            lineWidth: 2
+*/
+        }],
+
+        tooltip: {
+            split: true
+        },
+
+        series: [{
+            name: ticker,
+            type: 'candlestick',
+            data: data,
+            tooltip: {
+                valueDecimals: 2
+            }
+	/*}, {
+            name: 'Volume',
+            type: 'column',
+            data: vol,
+            tooltip: {
+                valueDecimals: 0
+            }
+	*/
+        }
+	]
+    });
+}
+
+// START Main Program
+param = getUrlVars();
+pbdate = (typeof param.pbdate=="undefined")?null:param.pbdate
+ticker = (typeof param.ticker=="undefined")?'AAPL':param.ticker;
+range = (typeof param.range=="undefined")?'1d':param.range;
+myObj = {}
+urlName=`/api?search=hist&instrument=stock&ticker=${ticker}&topic=minute&output=json&api_key=e0e83fbe0893ee7a039c4f569083d0a1`;
+
+// AJAX to get intraday OHLC data
+$.getJSON(urlName, myObj, function (datax) {
+    var comment='';
+    // re-arrange data
+    if(Array.isArray(datax) ){
+        dc=datax;
+    } else if(typeof datax == "object" && 'datax' in datax) {
+       dc=datax.datax;
+       if('comment' in datax) {
+           comment=datax.comment;
+       } 
+    } 
+    // cleanning undefined rows
+    ohlc=[];
+    vol=[];
+    for(i=j=0;i<dc.length;i++) {
+	x = dc[i];
+	if (typeof(x.close)=="undefined") {
+            continue;
+	}
+        v= (typeof(x.open)=="undefined")?[x.epochs,x.close]:[x.epochs,x.open,x.high,x.low,x.close];
+	ohlc[j] = v;
+        v=[x.epochs,x.volume];
+	vol[j] = v;
+	j ++;
+    }
+
+    // create the chart
+    create_stockChart('container',ticker,ohlc,vol);
+
+    // create the comment, TBD @ Sat Oct 24 20:41:05 EDT 2020
+    /*
+    comment=`{{comment|safe}}`;
+    if(!comment.includes("comment|safe",0)) {
+    */
+    if(comment.length>0) {
+        $('#comment').html(comment);
+    }
+});
+
+</script>

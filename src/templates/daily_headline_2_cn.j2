@@ -1,0 +1,28 @@
+{%- set lang = 'cn' -%}
+道瓊指數{{udfWord(chgPct2*2,lang=lang)}}{{chgLevel2}}點，收{{roundSD(close2,0,lang=lang,mp3YN=mp3YN)}}，標普500{{ifelse(conflict==1,"卻","亦")}}{{udfWord(chgPct1*2,lang=lang)}}{%- if abs(chgPct1)>0.05 -%}{{roundPct(chgPct1/100,2,lang=lang,mp3YN=mp3YN)}} {%- endif -%}以{{roundSD(close1,0,lang=lang,mp3YN=mp3YN)}}收盤。
+
+{%- if len(hiloRecord)>0 -%}
+{%- set xt={'YrToDate':'今年來最大','MoToDate':'本月初以來最大','LastMoToDate':'從上月以來最大'}  -%}
+{%- set hiloTitle = (xt[hiloRecord['name']]) + ('升幅' if hiloRecord['hilo']=='HIGH' else '降幅') -%}
+{{hiloTitle}}。
+{%- endif -%}
+
+{%- if UpDn1=="UP" -%}
+由{{leadStockStr}}{{rdWord('領軍|帶頭|領頭')}}。
+{%- elif UpDn1=="FLAT" -%}
+        {%- if topUD1=="UP" -%}
+                最大上升股為{{leadStockStr}}；
+        {%- else -%}
+                最深跌幅股為{{leadStockStr}}；
+        {%- endif -%}
+{%- else -%}
+受{{leadStockStr}}影響；
+{%- endif -%}
+
+{%- if conflict==1 -%}
+{%- if UpDn2=="UP" -%}
+道瓊由{{"{}({}%)".format(*list(topLst2[0].items())[0])}}{{rdWord('引領|帶領')}}{{udfWord(chgPct2*2,lang=lang)}}。
+{%- else -%}
+主要受{{"{}({}%)".format(*list(topLst2[0].items())[0])}}拖累。
+{%- endif -%}
+{%- endif -%}

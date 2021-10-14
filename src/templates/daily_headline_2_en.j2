@@ -1,0 +1,16 @@
+{%- set lang = 'en' -%}
+Dow Jones Index {{udfWord(chgPct2*2,lang=lang)}} {{chgLevel2}} points, closed at {{roundSD(close2,0,lang=lang,mp3YN=mp3YN)}}. {{ifelse(conflict==1,rdWord("However|Nevertheless|Yet")+", ","")}} SP500 {{udfWord(chgPct1*2,lang=lang)}} {% if abs(chgPct1)>0.05 -%}{{chgPct1}}% {%- endif %} closed at {{roundSD(close1,0,lang=lang,mp3YN=mp3YN)}},
+
+{%- if len(hiloRecord)>0 -%} 
+{%- set hiloName = hiloRecord['name'] -%}
+{%- set hiloTitle =  (' the largest increase' if hiloRecord['hilo']=='HIGH' else ' the largest drop') + (' of the entire year' if hiloRecord['name']=='YrToDate' else ' of the month') -%}
+{{hiloTitle}}.
+{%- endif -%}
+
+{%- if UpDn1=="UP" %} led by {{leadStockStr}}.
+{%- else -%}
+affected by {{leadStockStr}}.
+{%- endif -%}
+{%- if conflict==1 -%}
+Dow was led by {{"{}({}%)".format(*topLst2[0].items()[0])}}.
+{%- endif -%}

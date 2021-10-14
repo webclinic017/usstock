@@ -1,0 +1,89 @@
+{%- block closing -%}
+{# for debugging purpose {{dMnMx}} #}
+
+{% set lang = 'cn' %}
+{% set pctChg_open = copen/xprice-1 %}
+{% set trend_open = udfStr(pctChg_open,['高','低','盤持平'],0.0015,lang=lang) %}
+{% set rptDateTimeWd = ymd2md(rpt_time,ym='%m%d %H:%M',lang=lang,mp3YN=mp3YN) %}
+{% set udSign=0 if fcsChg==0 else 1 if (dfdr['sign'].iloc[-1]*fcsChg)>0 else -1 %}
+
+{# for closing  #}
+{% set pctChg_hourly = cprice/xprice-1 %}
+{# for 10am-4pm  #}
+{# set cprice = dMnMx['actual'].iloc[-1] #}
+{# set pctChg_hourly = dMnMx['pchg_open'].iloc[-1] #}
+{% set npn = 2 if cprice < 200 else 0 %}
+{% set xdayWd = '前一交易日' %}
+{% set xdayWd = '昨日' %}
+
+{% set alert_volume = udfStr(volS,['，並且成交量偏高','，不過成交量偏低',''],[ubound,lbound]) %}
+{# set trend_hourly = udfStr(pctChg_hourly,zs=0.0015,lang=lang) #}
+{% set trend_hourly = udfWord(pctChg_hourly*100,lang=lang) %}
+
+{% set pctChg_last = dMnMx['actual'].pct_change().values[-1] %}
+
+{# setiment for happy/sad talk comparing to previous close #}
+{% if pctChg_hourly >= 0 %}
+{% set trend_last = udfStr(pctChg_last,zs=0.0015,lang=lang) %}
+{% else %}
+{% set trend_last = udfStr(pctChg_last,['回復','持續惡化'],zs=0.0015,lang=lang) %}
+{% endif %}
+
+{# for debuggin unit-test of 4,3,2 points 
+{% set dMnMx = dMnMx.drop([1]) %}
+{% set dMnMx = dMnMx.reset_index() %}
+#}
+
+{# 道瓊指數攀升2.34% 趨勢看漲 #}
+{{label}}{{xdayWd}}{{trend_hourly}}{{ roundPct(pctChg_hourly,2,lang=lang,mp3YN=mp3YN)}}，開盤時趨勢
+{{- udfStr(dfdr['sign'].iloc[-1],udf=['看漲','看跌','不明'],lang=lang) }}
+
+{{rptDateTimeWd}} 盤前走勢快報:
+
+{% if dMnMx.shape[0]==4 %}
+{% set trend_pvt_1 = udfStr(dMnMx['pchg_open'][1],zs=0.001,lang=lang) %}
+{% set trend_pvt_2 = udfStr(dMnMx['pchg_open'][2],zs=0.001,lang=lang) %}
+
+{{label}}{{xdayWd}}早盤開{{trend_open}}，起初{{trend_pvt_1}}而後在{{ dMnMx['date'][2].strftime('%I點%M分') }}{{trend_pvt_2}}至{{ roundSD(dMnMx['actual'][2],npn,lang=lang,mp3YN=mp3YN) }}。 
+{% endif %}
+
+{% if dMnMx.shape[0]==3 %}
+{% set trend_pvt_1 = udfStr(dMnMx['pchg_open'][1],zs=0.001,lang=lang) %}
+{{label}}{{xdayWd}}早盤開{{trend_open}}，一路{{trend_pvt_1}}在{{ dMnMx['date'][1].strftime('%I點%M分') }}至{{ roundSD(dMnMx['actual'][1],npn,lang=lang,mp3YN=mp3YN) }}。
+{% endif %}
+
+{% if dMnMx.shape[0]==2 %}
+{{label}}{{xdayWd}}早盤開{{trend_open}}。
+{% endif %}
+
+之後為{{trend_last}}趨勢。 最終{{label}}{{trend_hourly}}
+{%- if abs(pctChg_hourly) > 0.001 -%}
+{{ roundPct(pctChg_hourly,2,lang=lang,mp3YN=mp3YN)}}
+{%- endif -%}
+，以{{ roundSD(cprice,npn,lang=lang,mp3YN=mp3YN) }}價格收盤{{alert_volume}}。
+
+{% if len(largest_move)>0 -%} 
+{% set fqKy, ud = (largest_move).split('_') %}
+{% set fqWd = {'W':'一周以來','M':'一個月以來','Q':'三個月以來','YTD':'從年初至今'} %}
+{% set udWd = {'U':'上升','D':'下降'} %}
+其{{udWd[ud]}}幅度為{{fqWd[fqKy]}}的最大變化。
+{%- endif -%}
+
+
+依據{{xdayWd}}{{label}}趨勢綫走向在{{ dfdr['date'].iloc[-2].strftime('%I點%M分') }}以後呈現{{udfStr(dfdr['sign'].iloc[-1],lang=lang)}}狀態。
+
+{%- if abs(fcsChg)>0.0001 %}
+{% if udSign==1 -%}
+同時根據TS模型預期，今天一開始也會{{udfStr(fcsChg,zs=0.001,lang=lang) }}。
+{% else -%}
+不過根據TS模型預期，今天一開始可能會有反轉{{udfStr(fcsChg,zs=0.001,lang=lang) }}的機率。
+{% endif -%}
+{% endif -%}
+
+{% if udSign==1 -%}
+	綜合目前各個指標顯示，預期開盤後内會有{{udfStr(fcsChg,lang=lang)}}行情。
+{% else -%}
+	綜合兩個指標顯示，目前趨勢呈現模糊不清的訊息，不建議開盤時貿然採取任何進出行動。
+{% endif -%}
+
+{%- endblock -%}
